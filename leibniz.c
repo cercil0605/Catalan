@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<math.h>
-//oppai
+//oppai is good
 int main()
 {
     double j,ans;

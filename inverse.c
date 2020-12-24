@@ -1,3 +1,4 @@
+//oppai is good
 int inverseNumber(Number* a,Number* b){ //逆数をNumber* b に返す この逆数ルーチンは2次収束
 	Number eps,x,y,g,pow1,pow2,pow3,tei1,tei2,tei0;
 	int i,c1,c0,c2;

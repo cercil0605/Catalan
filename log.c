@@ -1,3 +1,4 @@
+//oppai is good
 #include<stdio.h>
 #include<math.h>
 
