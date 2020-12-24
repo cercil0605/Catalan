@@ -3,24 +3,25 @@
 //oppai is good
 int main()
 {
-    double j,ans;
+    double j,ans,four;
     int i;
+    four=4;
 
     j=1.0;
 
-    for(i=1; i<=1000000; i++){
+    for(i=1.00000; i<=100; i+=1.00){
         if(i%2 == 0){
-            //printf("%lf\n",j);
-            j=j + (1.0/(2.0*i + 1.0));
+            printf("%0.20lf\n",j);
+            j=j + (1.000/(2.000*(double)i + 1.000));
         }
         else{
-            //printf("%lf\n",j);
-            j=j - (1.0/(2.0*i + 1.0));
+            printf("%0.20lf\n",j);
+            j=j - (1.0/(2.0*(double)i + 1.0));
         }
     }
-    ans=j*4;
+    ans=four*j;
 
-    printf("%lf",ans);
+    printf("%0.8000lf",ans);
 
 
     return 0;

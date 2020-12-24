@@ -892,34 +892,34 @@ int power(Number* a, Number* b, Number* c)
 
 int logarithm(Number* a,Number* b){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â‚ë‚¤‚©‚µ‚ç....
 	//log a    b‚Í‚»‚ê‚ÌŒvZŒ‹‰Ê
-	Number k,c,one,two,res1,res2,res3,res4,res5,res6,result,result1;
+	Number* k,c,one,two,res1,res2,res3,res4,res5,res6,result,result1,trash;
 	int i=0; //ƒtƒ‰ƒO
 
-	clearByZero(k);
-	clearByZero(c); //ƒSƒ~‘|œ
+	clearByZero(&k);
+	clearByZero(&c); //ƒSƒ~‘|œ
 
-	setInt(one,1);
-	setInt(two,2);
+	setInt(&one,1);
+	setInt(&two,2);
 
 	while(1){
 
-		multiple(two,k,res1); 
+		multiple(&two,&k,&res1); 
 
-		add(res1,one,res2);  //2k+1=res2
+		add(&res1,&one,&res2);  //2k+1=res2
 
-		divide(two,res2,res3); // 2/(2k+1)=res3
+		divide(&two,&res2,&res3,&trash); // 2/(2k+1)=res3
 
-		sub(a,one,res4); //y-1
+		sub(&a,&one,&res4); //y-1
 
-		add(a,one,res5);  //y+1
+		add(&a,&one,&res5);  //y+1
 
-		divide(res4,res5,res6); //res6=(y-1)/(y+1)
+		divide(&res4,&res5,&res6,&trash); //res6=(y-1)/(y+1)
 
-		power(res6,res2,result); //(y-1/y+1)^(2k+1)=result
+		power(&res6,&res2,&result); //(y-1/y+1)^(2k+1)=result
 
-		multiple(res3,result,result1);  //result1=res3*result
+		multiple(&res3,&result,&result1);  //result1=res3*result
 
-		add(result1,c,c); //c+=result1  ‚â‚è•û“I‚É‚Ü‚¸‚¢HH
+		add(&result1,&c,&c); //c+=result1  ‚â‚è•û“I‚É‚Ü‚¸‚¢HH
 
 
 		if(i>2000){ //‰½‰ñ‚µ‚½‚ç‚Ê‚¯‚é‚©‚Í—vŒŸ“¢
@@ -930,7 +930,7 @@ int logarithm(Number* a,Number* b){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â
 
 	//‚±‚±‚ç‚Ö‚ñ‚Å”{”‚©‚¯‚Ä‚½‚Î‚¢‚¿‚å‚¤‚É‚Ç‚¤‘Î‰‚³‚¹‚é‚©‚Í—vŒŸ“¢
 
-	copyNumber(c,b); //ŒvZŒ‹‰Ê‘ã“ü
+	copyNumber(&c,&b); //ŒvZŒ‹‰Ê‘ã“ü
 
 
 	return 0;
@@ -938,19 +938,19 @@ int logarithm(Number* a,Number* b){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â
 
 }
 
-int logarithm10(Number*a,Number* b){ //log10 a‚ğ‹‚ß‚é
-	Number c,log10,d,ans;
+int logarithm10(Number* a,Number* b){ //log10 a‚ğ‹‚ß‚é
+	Number c,log10,d,ans,trash;
 
-	clearByZero(c);
-	clearByZero(log10);
-	clearByZero(d);
-	clearByZero(ans);
+	clearByZero(&c);
+	clearByZero(&log10);
+	clearByZero(&d);
+	clearByZero(&ans);
 
-	setInt(d,10);
+	setInt(&d,10);
 
-	divide(logarithm(a,c),logarithm(d,log10),ans);  //log10 y=(ln y/ln 10)
+	divide(logarithm(&a,&c),logarithm(&d,&log10),&ans,&trash);  //log10 y=(ln y/ln 10)
 
-	copyNumber(ans,b); //b‚É“š‚¦‚ğƒRƒs[I
+	copyNumber(&ans,&b); //b‚É“š‚¦‚ğƒRƒs[I
 
 	return 0; //³íI—¹
 
@@ -959,49 +959,54 @@ int logarithm10(Number*a,Number* b){ //log10 a‚ğ‹‚ß‚é
 }
 
 int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ“‚Í2Ÿû‘©
-	Number eps,x,y,g,pow1,pow2,pow3,tei1,tei2,tei0;
+	Number eps,x,y,g,pow1,pow2,pow3,tei1,tei2,tei0,h,j;
 	int i,c1,c0,c2;
 
 
 
-	c0=isZero(a); //Å‰‚Éa‚É‚Â‚¢‚Ä”»’è‚µ‚ÄÀs‚Å‚«‚é‚©Šm‚©‚ß‚é
+	c0=isZero(&a); //Å‰‚Éa‚É‚Â‚¢‚Ä”»’è‚µ‚ÄÀs‚Å‚«‚é‚©Šm‚©‚ß‚é
 	if(c0==0){
 		printf("ˆÙíI—¹");
 		return -1;
 	}
-	c0=getSign(a);
+	c0=getSign(&a);
 	if(c0==-1){
 		setSign(a,1); //‚¢‚Á‚½‚ñ+‚ÉƒZƒbƒg‚·‚é
 		c2=-1; //‚ ‚Æ‚Å-‚Ì•„†‚ğ‚Â‚¯‚é‚½‚ß‚É
 
 	}
 	
-	setInt(eps,10); //
-	setInt(pow1,10); //10^{-N}‚Ì10‚Ì‚Æ‚±‚ë N=log10 aiˆø”j
-	setInt(tei1,0.2); //‰Šú’lŒˆ‚ß‚é‚É•K—v‚È0.2    ­”‘Î‰‚µ‚Ä‚È‚¢‚©‚ç‚Ç‚±‚©‚Å”{”‚©‚¯‚½‚¢
-	setInt(tei0,2); //2.0
+	setInt(&eps,10); //
+	setInt(&pow1,10); //10^{-N}‚Ì10‚Ì‚Æ‚±‚ë N=log10 aiˆø”j
+	setInt(&tei1,0.2); //‰Šú’lŒˆ‚ß‚é‚É•K—v‚È0.2    ­”‘Î‰‚µ‚Ä‚È‚¢‚©‚ç‚Ç‚±‚©‚Å”{”‚©‚¯‚½‚¢
+	setInt(&tei0,2); //2.0
 
 
 	for(i=0;i<8;i++){ //EPS:10^{-8} ‹t”‚Ìd‘g‚İ‚ªŠ®¬‚µ‚½‚çÄ‹NŒÄ‚Ño‚µ‚·‚é‚Ì‚à‚ ‚è	
-		divBy10(eps,10);
+		divBy10(&eps,10);
 	}
 
-	logarithm10(a,pow2); //N=log10 a
+	logarithm10(&a,&pow2); //N=log10 a
 
-	setSign(pow2,-1);  //-N
+	setSign(&pow2,-1);  //-N
 
-	power(pow1,pow2,pow3); //10^{-N}‚Ì‚Æ‚±‚ë‚ğ‚â‚Á‚Ä‚¨‚­  pow3<=pow1^(pow2)
+	power(&pow1,&pow2,&pow3); //10^{-N}‚Ì‚Æ‚±‚ë‚ğ‚â‚Á‚Ä‚¨‚­  pow3<=pow1^(pow2)
 
-	multiple(tei1,pow3,x); //x=0.2*pow(10.0,-(double)((int)log10(a)))‚Ì‚Æ‚±‚ë
+	multiple(&tei1,&pow3,&x); //x=0.2*pow(10.0,-(double)((int)log10(a)))‚Ì‚Æ‚±‚ë
 
 	while(1){
 		y=x;
+		copy(&x,&y);
+
+		sub(&tei0,multiple(&a,&y,&tei2),&h);
 		
-		multiple(y,sub(tei0,multiple(a,y,tei2)),x); //x=y*(2.0-a*y)
+		multiple(&y,&h,&x); //x=y*(2.0-a*y)
 
-		getAbs(x-y,g);
+		sub(&x,&y,&j);
 
-		c1=numComp(g,eps); 
+		getAbs(&j,&g);   //’¼‚·	
+
+		c1=numComp(&g,&eps); 
 
 		if(c1==-1){
 			break; //g<eps‚Æ”äŠr‚·‚é‚±‚Æ‚Å\•ª‚É³Šm‚È’l‚ğ‹‚ßØ‚Á‚½‚©‚ğŠm”F
@@ -1010,12 +1015,12 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 	}
 
 	if(c2<0){
-		setSign(x,-1); //-‚ÉƒZƒbƒg‚·‚é
+		setSign(&x,-1); //-‚ÉƒZƒbƒg‚·‚é
 	}
 
 
 
-	copyNumber(x,b); //‹t”‚ğ•Ô‚·‚Æ‚±‚ë‚Éxi“š‚¦j‚ğ“ü‚ê‚é
+	copyNumber(&x,&b); //‹t”‚ğ•Ô‚·‚Æ‚±‚ë‚Éxi“š‚¦j‚ğ“ü‚ê‚é
 
 	return 0; //³íI—¹
 
