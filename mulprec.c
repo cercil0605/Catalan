@@ -1027,3 +1027,36 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 
 
 }
+
+int zeta(Number* a,Number* f){ 
+	//ƒ[[ƒ^ŠÖ”‹‚ß‚é‚æ
+	//f=ƒÄ(a)
+	Number n,b,c,d,one,trash;
+	int i=0;
+
+
+	clearByZero(&n);
+	clearByZero(&b);
+	clearByZero(&c);
+	clearByZero(&d);
+	
+	setInt(&n,1);
+	setInt(&one,1);
+
+	while(1){
+
+		power(&n,&a,&b); //n^a=b;
+		divide(&one,&b,&c,&trash); //c=1/n^a
+		add(&d,&c,&d);  //d=c+d
+
+		increment(&n,&n); //n++
+		i++;
+
+		if(i>=12000){   //break‚·‚é‚Ü‚Å‚Ì‰ñ”‚Í—vŒŸ“¢
+			break;
+		}
+	}
+	copyNumber(&d,&b);  //“š‚¦‚ğb‚ÉƒRƒsƒy
+
+	return 0;
+}

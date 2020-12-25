@@ -1,10 +1,10 @@
 #include<stdio.h>
 #include<math.h>
 
-double zeta(double s){
+double zeta(double s){  //戻り値が答え
 
     int n=1;
-    double ans,a,b;
+    double a,b;
     a=0;
 
     while(1){
