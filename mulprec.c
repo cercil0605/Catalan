@@ -1062,13 +1062,19 @@ int zeta(Number* a,Number* f){
 	return 0;
 }
 
-int kensan(Number* a){  //ƒJƒ^ƒ‰ƒ“’è”‚ğ‚à‚Æ‚ß‚é‚à‚¤ˆê‚Â‚ÌŒvZ  ˆø”a‚É“š‚¦‚ğ•Ô‚·
+int kensan(Number* f){  //ƒJƒ^ƒ‰ƒ“’è”‚ğ‚à‚Æ‚ß‚é‚à‚¤ˆê‚Â‚ÌŒvZ  ˆø”a‚É“š‚¦‚ğ•Ô‚·
 
-    Number k,a,b,c,d,e,n,two,one,zet,four,ans,trash;
+    Number k,a,b,c,d,e,two,one,zet,four,ans,trash;
 	int i=0;
 
+	clearByZero(&ans);
+	clearByZero(&a);
+	clearByZero(&b);
+	clearByZero(&c);
+	clearByZero(&d);
+	clearByZero(&e);
+
 	setInt(&k,1);
-	setInt(&n,1);
 	setInt(&one,1);
 	setInt(&two,2);
 	setInt(&four,4);
@@ -1092,7 +1098,7 @@ int kensan(Number* a){  //ƒJƒ^ƒ‰ƒ“’è”‚ğ‚à‚Æ‚ß‚é‚à‚¤ˆê‚Â‚ÌŒvZ  ˆø”a‚É“š‚¦‚ğ•Ô‚
 		break;   //‚Ê‚¯‚é‚Æ‚±‚ë‚Í‚à‚¿‚ë‚ñ—vŒŸ“¢
 	}
 	}
-	copyNumber(&ans,&a);  //ˆø”a‚Ì‚Æ‚±‚ë‚ÉƒRƒs[‚·‚é
+	copyNumber(&ans,&f);  //ˆø”a‚Ì‚Æ‚±‚ë‚ÉƒRƒs[‚·‚é
 
 	return 0;
 }
