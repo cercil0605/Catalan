@@ -1029,6 +1029,7 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 }
 
 int zeta(Number* a,Number* f){ 
+
 	//ƒ[[ƒ^ŠÖ”‹‚ß‚é‚æ
 	//f=ƒÄ(a)
 	Number n,b,c,d,one,trash;
@@ -1057,6 +1058,41 @@ int zeta(Number* a,Number* f){
 		}
 	}
 	copyNumber(&d,&b);  //“š‚¦‚ğb‚ÉƒRƒsƒy
+
+	return 0;
+}
+
+int kensan(Number* a){  //ƒJƒ^ƒ‰ƒ“’è”‚ğ‚à‚Æ‚ß‚é‚à‚¤ˆê‚Â‚ÌŒvZ  ˆø”a‚É“š‚¦‚ğ•Ô‚·
+
+    Number k,a,b,c,d,e,n,two,one,zet,four,ans,trash;
+	int i=0;
+
+	setInt(&k,1);
+	setInt(&n,1);
+	setInt(&one,1);
+	setInt(&two,2);
+	setInt(&four,4);
+
+	while(1){
+
+	multiple(&k,&two,&a);
+	add(&a,&one,&zet);  //2*k+1
+	zeta(&zet,&c);  //c<=ƒÄ(2*k+1)
+	multiple(&c,&k,&c); //c<=c*k;
+	power(&four,&a,&d); //d<=4^(2*k)
+
+	divide(&c,&d,&e,&trash);  //ƒÄ(2*k+1)*k/4^(2*k)=e
+
+	add(&ans,&e,&ans);  //ans+=e
+
+	increment(&k,&k); //n++
+	i++;
+
+	if(i>=20000){
+		break;   //‚Ê‚¯‚é‚Æ‚±‚ë‚Í‚à‚¿‚ë‚ñ—vŒŸ“¢
+	}
+	}
+	copyNumber(&ans,&a);  //ˆø”a‚Ì‚Æ‚±‚ë‚ÉƒRƒs[‚·‚é
 
 	return 0;
 }
