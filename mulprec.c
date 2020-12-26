@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <time.h>
-#define KETA 20
+#define KETA 1000
 
 typedef struct NUMBER
 {
@@ -35,9 +35,6 @@ int decrement(Number*, Number*);
 int multiple(Number*, Number*, Number*);
 int divide(Number*, Number*, Number*, Number*);
 int power(Number*, Number*, Number*);
-int logarithm(Number*,Number*);
-int logarithm10(Number*,Number*);
-int inverseNumber(Number*,Number*);
 
 int setSign(Number* a, int s)
 //‘½”{’·•Ï”a‚Ì•„†‚ğ
@@ -185,10 +182,10 @@ void setRnd(Number* a, int k)//a‚Ì‰ºˆÊkŒ…‚É—”’l‚ğƒZƒbƒg‚·‚é
 
 	for (i = 0; i < k; i++) 
 	{
-		a->n[i] = random() % 10;
+		a->n[i] = rand() % 10;
 	}
 
-	if (random() % 2 == 0 || isZero(a) == 0) 
+	if (rand() % 2 == 0 || isZero(a) == 0) 
 	{
 		setSign(a, 1);
 	}
@@ -632,6 +629,23 @@ int increment(Number* a, Number* b)
 	return r;
 }
 
+int inc(Number* a)
+//a+1
+{
+	Number one, b;
+	int r;
+
+	setInt(&one, 1);
+	r = add(a, &one, &b);
+
+	if (r == 0)
+	{
+		copyNumber(&b, a);
+	}
+
+	return r;
+}
+
 int decrement(Number* a, Number* b)
 //b <- a-1
 {
@@ -890,9 +904,9 @@ int power(Number* a, Number* b, Number* c)
 	}
 }
 
-int logarithm(Number* a,Number* b){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â‚ë‚¤‚©‚µ‚ç....
+Number logarithm(Number* a){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â‚ë‚¤‚©‚µ‚ç....
 	//log a    b‚Í‚»‚ê‚ÌŒvZŒ‹‰Ê
-	Number* k,c,one,two,res1,res2,res3,res4,res5,res6,result,result1,trash;
+	Number k,c,one,two,res1,res2,res3,res4,res5,res6,result,result1,trash;
 	int i=0; //ƒtƒ‰ƒO
 
 	clearByZero(&k);
@@ -909,9 +923,9 @@ int logarithm(Number* a,Number* b){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â
 
 		divide(&two,&res2,&res3,&trash); // 2/(2k+1)=res3
 
-		sub(&a,&one,&res4); //y-1
+		sub(a,&one,&res4); //y-1
 
-		add(&a,&one,&res5);  //y+1
+		add(a,&one,&res5);  //y+1
 
 		divide(&res4,&res5,&res6,&trash); //res6=(y-1)/(y+1)
 
@@ -930,46 +944,45 @@ int logarithm(Number* a,Number* b){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â
 
 	//‚±‚±‚ç‚Ö‚ñ‚Å”{”‚©‚¯‚Ä‚½‚Î‚¢‚¿‚å‚¤‚É‚Ç‚¤‘Î‰‚³‚¹‚é‚©‚Í—vŒŸ“¢
 
-	copyNumber(&c,&b); //ŒvZŒ‹‰Ê‘ã“ü
+	//copyNumber(&c,b); //ŒvZŒ‹‰Ê‘ã“ü
 
 
-	return 0;
+	return c;  //•Ô‚è’l ‚±‚½‚¦
 
 
 }
 
-int logarithm10(Number* a,Number* b){ //log10 a‚ğ‹‚ß‚é
-	Number c,log10,d,ans,trash;
+Number logarithm10(Number* a){ //log10 a‚ğ‹‚ß‚é  
+	Number c,log10,ten,ans,trash,a1;
 
 	clearByZero(&c);
 	clearByZero(&log10);
-	clearByZero(&d);
 	clearByZero(&ans);
 
-	setInt(&d,10);
+	setInt(&ten,10);
 
-	divide(logarithm(&a,&c),logarithm(&d,&log10),&ans,&trash);  //log10 y=(ln y/ln 10)
+	a1=logarithm(a);
+	ten=logarithm(&ten);
 
-	copyNumber(&ans,&b); //b‚É“š‚¦‚ğƒRƒs[I
+	divide(&a1,&ten,&ans,&trash);  //log10 y=(ln y/ln 10)
 
-	return 0; //³íI—¹
+	//copyNumber(&ans,b); //b‚É“š‚¦‚ğƒRƒs[I
 
-
-
+	return ans; //³íI—¹  •Ô‚è’l‚Í“š‚¦(NumberŒ^)
 }
 
 int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ“‚Í2Ÿû‘©
-	Number eps,x,y,g,pow1,pow2,pow3,tei1,tei2,tei0,h,j;
+	Number eps,x,y,g,pow1,pow2,pow3,tei1,tei2,tei0,h,j,a1;
 	int i,c1,c0,c2;
 
 
 
-	c0=isZero(&a); //Å‰‚Éa‚É‚Â‚¢‚Ä”»’è‚µ‚ÄÀs‚Å‚«‚é‚©Šm‚©‚ß‚é
+	c0=isZero(a); //Å‰‚Éa‚É‚Â‚¢‚Ä”»’è‚µ‚ÄÀs‚Å‚«‚é‚©Šm‚©‚ß‚é
 	if(c0==0){
 		printf("ˆÙíI—¹");
 		return -1;
 	}
-	c0=getSign(&a);
+	c0=getSign(a);
 	if(c0==-1){
 		setSign(a,1); //‚¢‚Á‚½‚ñ+‚ÉƒZƒbƒg‚·‚é
 		c2=-1; //‚ ‚Æ‚Å-‚Ì•„†‚ğ‚Â‚¯‚é‚½‚ß‚É
@@ -983,10 +996,12 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 
 
 	for(i=0;i<8;i++){ //EPS:10^{-8} ‹t”‚Ìd‘g‚İ‚ªŠ®¬‚µ‚½‚çÄ‹NŒÄ‚Ño‚µ‚·‚é‚Ì‚à‚ ‚è	
-		divBy10(&eps,10);
+		divBy10(&eps,&eps);
 	}
 
-	logarithm10(&a,&pow2); //N=log10 a
+	a1=logarithm10(a); //N(pow2)=log10 a
+
+	copyNumber(&a1,&pow2);
 
 	setSign(&pow2,-1);  //-N
 
@@ -995,14 +1010,15 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 	multiple(&tei1,&pow3,&x); //x=0.2*pow(10.0,-(double)((int)log10(a)))‚Ì‚Æ‚±‚ë
 
 	while(1){
-		y=x;
-		copy(&x,&y);
+		copyNumber(&x,&y);
 
-		sub(&tei0,multiple(&a,&y,&tei2),&h);
+		multiple(a,&y,&tei2);  //te2=a*y
+
+		sub(&tei0,&tei2,&h);  //2.0-a*y=h
 		
 		multiple(&y,&h,&x); //x=y*(2.0-a*y)
 
-		sub(&x,&y,&j);
+		sub(&x,&y,&j);  //j=x-y
 
 		getAbs(&j,&g);   //’¼‚·	
 
@@ -1015,12 +1031,12 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 	}
 
 	if(c2<0){
-		setSign(&x,-1); //-‚ÉƒZƒbƒg‚·‚é
+		setSign(&x,(int)-1); //-‚ÉƒZƒbƒg‚·‚é
 	}
 
 
 
-	copyNumber(&x,&b); //‹t”‚ğ•Ô‚·‚Æ‚±‚ë‚Éxi“š‚¦j‚ğ“ü‚ê‚é
+	copyNumber(&x,b); //‹t”‚ğ•Ô‚·‚Æ‚±‚ë‚Éxi“š‚¦j‚ğ“ü‚ê‚é
 
 	return 0; //³íI—¹
 
@@ -1046,14 +1062,14 @@ int zeta(Number* a,Number* f){
 
 	while(1){
 
-		power(&n,&a,&b); //n^a=b;
+		power(&n,a,&b); //n^a=b;
 		divide(&one,&b,&c,&trash); //c=1/n^a
 		add(&d,&c,&d);  //d=c+d
 
-		increment(&n,&n); //n++
+		inc(&n); //n++
 		i++;
 
-		if(i>=12000){   //break‚·‚é‚Ü‚Å‚Ì‰ñ”‚Í—vŒŸ“¢
+		if(i>=120){   //break‚·‚é‚Ü‚Å‚Ì‰ñ”‚Í—vŒŸ“¢
 			break;
 		}
 	}
@@ -1062,43 +1078,112 @@ int zeta(Number* a,Number* f){
 	return 0;
 }
 
-int kensan(Number* f){  //ƒJƒ^ƒ‰ƒ“’è”‚ğ‚à‚Æ‚ß‚é‚à‚¤ˆê‚Â‚ÌŒvZ  ˆø”a‚É“š‚¦‚ğ•Ô‚·
+Number kensan()
+{
+	Number value, one, two,four, loop, tmp, tmp1, tmp2,tmp3,Keta,final,trash;
+	int i;
+	int keta = 3;
 
-    Number k,a,b,c,d,e,two,one,zet,four,ans,trash;
-	int i=0;
+	setInt(&two, 2);
+	clearByZero(&loop);
+	setInt(&Keta,1);
+	clearByZero(&value);
+    clearByZero(&tmp1);
+	clearByZero(&tmp);
+	clearByZero(&tmp2);
+	clearByZero(&tmp3);
+	clearByZero(&final);
+    copyNumber(&Keta,&one);
+    setInt(&four,4);
+    
 
-	clearByZero(&ans);
-	clearByZero(&a);
-	clearByZero(&b);
-	clearByZero(&c);
-	clearByZero(&d);
-	clearByZero(&e);
-
-	setInt(&k,1);
-	setInt(&one,1);
-	setInt(&two,2);
-	setInt(&four,4);
-
-	while(1){
-
-	multiple(&k,&two,&a);
-	add(&a,&one,&zet);  //2*k+1
-	zeta(&zet,&c);  //c<=ƒÄ(2*k+1)
-	multiple(&c,&k,&c); //c<=c*k;
-	power(&four,&a,&d); //d<=4^(2*k)
-
-	divide(&c,&d,&e,&trash);  //ƒÄ(2*k+1)*k/4^(2*k)=e
-
-	add(&ans,&e,&ans);  //ans+=e
-
-	increment(&k,&k); //n++
-	i++;
-
-	if(i>=20000){
-		break;   //‚Ê‚¯‚é‚Æ‚±‚ë‚Í‚à‚¿‚ë‚ñ—vŒŸ“¢
+	for (i = 0; i < keta; i++)  //‚±‚±‚È‚É‚µ‚Ä‚ñ‚¾‚ë“ü‚éŒ…”‚ÌŠg‘å‚©‚â
+	{
+		mulBy10(&Keta, &tmp);
+		copyNumber(&tmp, &Keta);
 	}
-	}
-	copyNumber(&ans,&f);  //ˆø”a‚Ì‚Æ‚±‚ë‚ÉƒRƒs[‚·‚é
 
-	return 0;
+    copyNumber(&one,&loop);  // loop=1
+	
+	while (1)
+	{
+		multiple(&two, &loop, &tmp);  //tmp=2*n
+        power(&four,&tmp,&tmp2);  //4^{2*n}  •ª•ê
+		inc(&tmp);  //ƒCƒ“ƒNƒŠƒƒ“ƒg  2*n+1
+        zeta(&tmp,&tmp1);  //tmp1=ƒÄ(2*n+1)
+        multiple(&tmp1,&loop,&tmp);  //tmp=•ªq(tmp‚à‚¤g‚í‚ñ‚©‚ç‘‚«Š·‚¦‚Ä‚à‚Á‚©‚¢‚Â‚©‚¤)
+
+        if (numComp(&Keta, &value) == -1)  //‚½‚Î‚¢‚¿‚å‚¤‚ÅŒvZ‚Å‚«‚éŒ…”’´‚¦‚»‚¤‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
+		{
+            break;
+		}
+
+        divide(&tmp,&tmp2,&tmp1,&trash);  //tmp1=tmp/tmp2
+
+        add(&value,&tmp1,&tmp3);  //tmp3=value+tmp1
+        copyNumber(&tmp3,&value);  //value+=tmp1
+
+        inc(&loop);  //loop++
+
+		}
+        sub(&one,&value,&final);  //1-ƒ°(....)=final
+        return final;   //“š‚¦‚ğ•Ô‚·
+}
+
+Number catalan()
+//ƒJƒ^ƒ‰ƒ“’è”‚ğ’è‹`‚É‚æ‚è‹‚ß‚é
+//–ß‚è’l...ƒJƒ^ƒ‰ƒ“’è”
+{
+	Number value, a, two, loop, tmp, tmp1, tmp2, Keta;
+	int i;
+	int keta = 10;
+
+	setInt(&two, 2);
+	clearByZero(&loop);
+	setInt(&Keta,1);
+	clearByZero(&value);
+
+	for (i = 0; i < keta; i++)  //‚±‚±‚È‚É‚µ‚Ä‚ñ‚¾‚ë“ü‚éŒ…”‚ÌŠg‘å‚©‚â
+	{
+		mulBy10(&Keta, &tmp);
+		copyNumber(&tmp, &Keta);
+	}
+	
+	while (1)
+	{
+		multiple(&two, &loop, &tmp);  //tmp=2*n
+		inc(&tmp);  //ƒCƒ“ƒNƒŠƒƒ“ƒg  2*n+1
+		power(&tmp, &two, &tmp1);  //(2*n+1)^2=tmp1
+
+
+		if (numComp(&Keta, &tmp1) == -1)  //‚½‚Î‚¢‚¿‚å‚¤‚ÅŒvZ‚Å‚«‚éŒ…”’´‚¦‚»‚¤‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
+		{
+			return value;
+		}
+
+
+		divide(&Keta, &tmp1, &a, &tmp2);  //a<=Keta/tmp1
+
+		if (loop.n[0] % 2 == 0)  //Šï”‹ô”‚ÅŒvZƒpƒ^[ƒ“‚ğ•ÏX
+		{
+			add(&value, &a, &tmp2);  //tmp2=value+a
+			copyNumber(&tmp2, &value);  //value=tmp2  ‚·‚È‚í‚¿value+=a‚Ä‚±‚Æ
+		}
+		else
+		{
+			sub(&value, &a, &tmp2);  //tmp2=value-a
+			copyNumber(&tmp2, &value);  //value-=a
+		}
+		inc(&loop);  //loop++(n++)
+		
+	}
+}
+
+
+
+int main(){
+	Number C;
+	clearByZero(&C);
+	C=kensan();
+	dispNumber(&C);
 }
