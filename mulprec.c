@@ -1078,57 +1078,25 @@ int zeta(Number* a,Number* f){
 	return 0;
 }
 
-Number kensan()
-{
-	Number value, one, two,four, loop, tmp, tmp1, tmp2,tmp3,Keta,final,trash;
-	int i;
-	int keta = 3;
+Number kaijo(Number* a){
 
-	setInt(&two, 2);
-	clearByZero(&loop);
-	setInt(&Keta,1);
-	clearByZero(&value);
-    clearByZero(&tmp1);
-	clearByZero(&tmp);
-	clearByZero(&tmp2);
-	clearByZero(&tmp3);
-	clearByZero(&final);
-    copyNumber(&Keta,&one);
-    setInt(&four,4);
-    
+    Number a1,b,one,i;
 
-	for (i = 0; i < keta; i++)  //ここなにしてんだろ入る桁数の拡大かや
-	{
-		mulBy10(&Keta, &tmp);
-		copyNumber(&tmp, &Keta);
-	}
+    setInt(&a1,1);
+    setInt(&i,1);
 
-    copyNumber(&one,&loop);  // loop=1
-	
-	while (1)
-	{
-		multiple(&two, &loop, &tmp);  //tmp=2*n
-        power(&four,&tmp,&tmp2);  //4^{2*n}  分母
-		inc(&tmp);  //インクリメント  2*n+1
-        zeta(&tmp,&tmp1);  //tmp1=ζ(2*n+1)
-        multiple(&tmp1,&loop,&tmp);  //tmp=分子(tmpもう使わんから書き換えてもっかいつかう)
-
-        if (numComp(&Keta, &value) == -1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
-		{
+    while(1){
+        multiple(&a1,&i,&b);  //b=a*i
+        copyNumber(&b,&a1);   //a==b    a*=i
+        inc(&i);
+        if(numComp(&i,a)==1){  //i>aなのでやめようね
             break;
-		}
-
-        divide(&tmp,&tmp2,&tmp1,&trash);  //tmp1=tmp/tmp2
-
-        add(&value,&tmp1,&tmp3);  //tmp3=value+tmp1
-        copyNumber(&tmp3,&value);  //value+=tmp1
-
-        inc(&loop);  //loop++
-
-		}
-        sub(&one,&value,&final);  //1-Σ(....)=final
-        return final;   //答えを返す
+        }
+    }
+    return a1;  //答えを返すお
 }
+
+
 
 Number catalan()
 //カタラン定数を定義により求める
@@ -1180,10 +1148,10 @@ Number catalan()
 }
 
 
-
 int main(){
-	Number C;
+	Number C,b;
 	clearByZero(&C);
-	C=kensan();
+	setInt(&b,400);
+	C=kaijo(&b);
 	dispNumber(&C);
 }
