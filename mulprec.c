@@ -1093,10 +1093,83 @@ Number kaijo(Number* a){
             break;
         }
     }
+	copyNumber(&a1,a);
     return a1;  //答えを返すお
 }
 
+Number kensan(){    //計算の形はできたけど何倍か掛けて、たばいちょうに表示するとこができない
+    Number bunbo,bunshi,one,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value;
 
+    clearByZero(&bunbo);
+	clearByZero(&bunshi);
+	setInt(&one,1);
+	setInt(&two,2);
+	setInt(&forty,40);
+	setInt(&twe4,24);
+	setInt(&three,3);
+	setInt(&four,4);
+	setInt(&eight,8);
+	setInt(&six4,64);
+	copyNumber(&one,&n);
+
+	while(1){
+
+		multiple(&eight,&n,&n8);  //n8=8*n
+
+		power(&two,&n8,&c1); //c1=2^(8*n)  c1後で使う
+
+		power(&n,&two,&n8); //n8=n^2
+	    multiple(&forty,&n8,&c0);  //c0=40*n^2
+		multiple(&twe4,&n,&c2);  //c2=24*n
+		sub(&c0,&c2,&c3);  //c0-c2=c3
+		add(&c3,&three,&c2);  //c2=c3+3   →40*n^2-24*n+3  c2後で使う
+
+		multiple(&two,&n,&n8);  //n8=2*n
+
+		kaijo(&n8);
+		power(&n8,&three,&c3);  //c3=((2*n!))^3
+		kaijo(&n);
+		power(&n,&two,&c0);  //c0=(n!)^2
+
+
+		multiple(&c1,&c2,&c4);  //c4=c1*c2
+		multiple(&c3,&c0,&c5);  //c5=c0*c3
+
+		//c4*c5=分子
+
+		multiple(&c4,&c5,&bunshi);
+		//ここまでで分子求めた
+
+		power(&n,&three,&c0);  //c0=n^3
+		sub(&n8,&one,&c1);  //c1=2*n-1
+		multiple(&two,&n8,&c3);   //c3=4*n
+		kaijo(&c3);
+        power(&c3,&two,&c4);   //c4=(4*n!)^2
+
+		multiple(&c0,&c1,&c5);   //c5=c0*c1=(n^3)*(2*n-1)
+		multiple(&c5,&c4,&bunbo);   //bunbo=c5*c4=c5*((4*n!)^2)
+
+		//ここまでで分母求めた
+
+		divide(&bunbo,&bunshi,&h,&h1);  //h=Σのところ
+
+
+		if(n.n[0]%2==0){  //+もしくは-かをつける
+
+			sub(&value, &h, &h1);  //h1=value-h
+			copyNumber(&h1, &value);  //value-=h
+
+		}
+		else{
+			add(&value, &h, &h1);  //h1=value+h
+			copyNumber(&h1, &value);  //value+=h
+		}
+	}
+
+	divide(&value,&six4,&h,&h1);   //G=(Σ....)/64  
+
+	return h;
+}
 
 Number catalan()
 //カタラン定数を定義により求める
@@ -1114,8 +1187,9 @@ Number catalan()
 	for (i = 0; i < keta; i++)  //ここなにしてんだろ入る桁数の拡大かや
 	{
 		mulBy10(&Keta, &tmp);
-		copyNumber(&tmp, &Keta);
+		copyNumber(&tmp, &Keta);  //Keta=10^{keta}
 	}
+	printf("i\n");
 	
 	while (1)
 	{
@@ -1123,14 +1197,20 @@ Number catalan()
 		inc(&tmp);  //インクリメント  2*n+1
 		power(&tmp, &two, &tmp1);  //(2*n+1)^2=tmp1
 
+		printf("b");
+
 
 		if (numComp(&Keta, &tmp1) == -1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
 		{
-			return value;
+			break;
 		}
+		printf("c");
 
 
-		divide(&Keta, &tmp1, &a, &tmp2);  //a<=Keta/tmp1
+		divide(&Keta, &tmp1, &a, &tmp2);  //a<=Keta/tmp1   ここでketa=8以上になると重くなる
+
+		//dispNumber(&a);
+		printf("a\n");
 
 		if (loop.n[0] % 2 == 0)  //奇数偶数で計算パターンを変更
 		{
@@ -1145,13 +1225,12 @@ Number catalan()
 		inc(&loop);  //loop++(n++)
 		
 	}
+	return value;
 }
 
 
 int main(){
 	Number C,b;
-	clearByZero(&C);
-	setInt(&b,400);
-	C=kaijo(&b);
+	C=catalan();
 	dispNumber(&C);
 }
