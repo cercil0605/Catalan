@@ -243,6 +243,24 @@ int mulBy10(Number* a, Number* b)
 	return 0;
 }
 
+int mul10E(Number* a,int i){  //10^i‚µ‚½’l‚ğˆø”‚Ì‚Æ‚±‚ë‚É‚Ü‚ñ‚Ü•Ô‚·
+	Number b;
+
+    while(1){
+		mulBy10(a,&b);
+		copyNumber(&b,a);
+		i--;
+		if(i==0){
+			break;
+		}
+
+	}
+
+	
+	return 0;
+}
+
+
 int divBy10(Number* a, Number* b) 
 //a‚ğ1/10”{‚µ‚Äb‚É•Ô‚·
 //
@@ -271,6 +289,24 @@ int divBy10(Number* a, Number* b)
 		return (a->n[0] * (-1));
 	}
 }
+
+int div10E(Number* a,int i){
+	Number b;
+	while(1){
+
+		divBy10(a,&b);
+		copyNumber(&b,a);
+		i--;
+		if(i==0){
+			break;
+		}
+
+	}
+
+	
+	return 0;
+}
+
 
 int setInt(Number* a, int x)
 //‘½”{’·•Ï”a‚ÉintŒ^•Ï”x‚Ì’l‚ğİ’è‚·‚é
@@ -657,6 +693,22 @@ int decrement(Number* a, Number* b)
 
 	return r;
 }
+int dec(Number* a)
+//a-1
+{
+	Number one, b;
+	int r;
+
+	setInt(&one, 1);
+	r = sub(a, &one, &b);
+
+	if (r == 0)
+	{
+		copyNumber(&b, a);
+	}
+
+	return r;
+}
 
 int multiple(Number* a, Number* b, Number* c)
 //c <- a*b
@@ -815,6 +867,98 @@ int divide(Number* a, Number* b, Number* c, Number* d)
 	}
 }
 
+int Evodivide(Number* a, Number* b, Number* c, Number* d)
+//i‰»”Å
+//c <- a/b
+//d <- a%d
+//
+//–ß‚è’l
+//0...³íI—¹
+//-1...Š„‚é”‚ª0
+{
+	Number n, m,f,g,flag;
+
+	clearByZero(c);
+	clearByZero(d);
+    clearByZero(&flag);
+
+
+	if (isZero(b) == 0)
+	{
+		return -1;
+	}
+
+	int aSign = getSign(a);
+	int bSign = getSign(b);
+
+	if (aSign == 1 && bSign == 1)
+	{
+
+		while (1)
+		{
+			if (numComp(a, b) == -1)  //a<b‚È‚ç‚¨‚µ‚Ü‚¢
+			{
+				copyNumber(a, d);
+				break;
+			}
+			else
+			{
+                copyNumber(b,&f);   //f=b
+                setInt(&g,1); //g=1
+                while(1){
+                    mulBy10(&f,&n);
+                    copyNumber(&n,&f);  //f*=10
+                    if(numComp(a,&f)==-1){
+                        divBy10(&f,&n);
+                        copyNumber(&n,&f);  //a>f‚ÌÅ‘å‚Ìf
+                        break;
+                    }
+                    inc(&flag); //10‚ğ‚©‚¯‚½‰ñ”
+                }
+
+                while (1)
+                {
+                    mulBy10(&g,&n);
+                    copyNumber(&n,&g);  //g*=10
+                    dec(&flag);
+                    if(isZero(&flag)==0){
+                        break;  //‰ñ”•ª‚©‚¯‚½‚Ì‚Åok‚Ç‚·‚¦
+                    }
+                }
+                sub(a,&f,&n);
+                copyNumber(&n,a);  //a-f
+                add(c,&g,&n);
+                copyNumber(&n,c);  //c+e
+			}
+		}
+	}
+	else if (aSign == 1 && bSign == -1)
+	{
+		Number p;
+		getAbs(b, &p);
+		Evodivide(a, &p, c, d);
+		setSign(c, -1);
+	}
+	else if (aSign == -1 && bSign == 1)
+	{
+		Number p;
+		getAbs(a, &p);
+		Evodivide(&p, b, c, d);
+		setSign(c, -1);
+		setSign(d, -1);
+	}
+	else
+	{
+		Number p, q;
+		getAbs(a, &p);
+		getAbs(b, &q);
+		Evodivide(&p, &q, c, d);
+		setSign(d, -1);
+	}
+	return 0;
+}
+
+
 int power(Number* a, Number* b, Number* c)
 
 
@@ -906,48 +1050,61 @@ int power(Number* a, Number* b, Number* c)
 
 Number logarithm(Number* a){   //©‘R‘Î”‚Å‚Ìlog   í—p‘Î”‚Å‚Ç‚¤‚â‚Á‚Ä‚â‚ë‚¤‚©‚µ‚ç....
 	//log a    b‚Í‚»‚ê‚ÌŒvZŒ‹‰Ê
-	Number k,c,one,two,res1,res2,res3,res4,res5,res6,result,result1,trash;
+	Number k,one,two,tmp,tmp1,tmp2,tmp3,tmp4,tmp5,value,Keta,trash;
 	int i=0; //ƒtƒ‰ƒO
+	int j=0;
+	int keta=10;
 
-	clearByZero(&k);
-	clearByZero(&c); //ƒSƒ~‘|œ
+	clearByZero(&k);  //k=0
+	clearByZero(&value); //ƒSƒ~‘|œ
 
 	setInt(&one,1);
 	setInt(&two,2);
+	copyNumber(&one,&Keta);  //Keta=one(1)
 
-	while(1){
-
-		multiple(&two,&k,&res1); 
-
-		add(&res1,&one,&res2);  //2k+1=res2
-
-		divide(&two,&res2,&res3,&trash); // 2/(2k+1)=res3
-
-		sub(a,&one,&res4); //y-1
-
-		add(a,&one,&res5);  //y+1
-
-		divide(&res4,&res5,&res6,&trash); //res6=(y-1)/(y+1)
-
-		power(&res6,&res2,&result); //(y-1/y+1)^(2k+1)=result
-
-		multiple(&res3,&result,&result1);  //result1=res3*result
-
-		add(&result1,&c,&c); //c+=result1  ‚â‚è•û“I‚É‚Ü‚¸‚¢HH
+	for(i=0;i<keta;i++){
+		mulBy10(&Keta, &tmp);
+		copyNumber(&tmp, &Keta);  //Keta=10^{keta}
+	}
 
 
-		if(i>2000){ //‰½‰ñ‚µ‚½‚ç‚Ê‚¯‚é‚©‚Í—vŒŸ“¢
+	while(1)
+	{
+		multiple(&k,&two,&tmp);  //tmp=2*k
+		inc(&tmp);  //tmp=2*k+1
+		decrement(a,&tmp1);  //y-1
+		increment(a,&tmp2);  //y+1
+
+		power(&tmp1,&tmp,&tmp3);  //tmp3=(y-1)^{2*k+1}
+		multiple(&tmp3,&two,&tmp5);  //tmp5=•ªq
+
+		power(&tmp2,&tmp,&tmp1);  //tmp1=(y+1)^{2*k+1}
+		multiple(&tmp1,&tmp,&tmp4);  //tmp4=•ª•ê
+
+		multiple(&Keta,&tmp5,&tmp3);  //tmp3=‚ß‚Á‚¿‚á‘å‚«‚È•ªq‚Ì’l
+
+		if(j>5000){
 			break;
 		}
-        i++;
+
+		divide(&tmp3,&tmp4,&tmp5,&trash);  
+
+		add(&value,&tmp5,&tmp4);
+		copyNumber(&tmp4,&value);
+
+		inc(&k);
+		j++;
+		//printf("f");
 	}
 
 	//‚±‚±‚ç‚Ö‚ñ‚Å”{”‚©‚¯‚Ä‚½‚Î‚¢‚¿‚å‚¤‚É‚Ç‚¤‘Î‰‚³‚¹‚é‚©‚Í—vŒŸ“¢
 
 	//copyNumber(&c,b); //ŒvZŒ‹‰Ê‘ã“ü
 
+	printf("aaaaa");
 
-	return c;  //•Ô‚è’l ‚±‚½‚¦
+
+	return value;  //•Ô‚è’l ‚±‚½‚¦
 
 
 }
@@ -972,10 +1129,10 @@ Number logarithm10(Number* a){ //log10 a‚ğ‹‚ß‚é
 }
 
 int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ“‚Í2Ÿû‘©
-	Number eps,x,y,g,pow1,pow2,pow3,tei1,tei2,tei0,h,j,a1;
+	Number eps,x,y,g,x1,pow1,pow2,pow3,tei1,tei2,tei0,h,j,a1;
 	int i,c1,c0,c2;
-
-
+	int n = KETA - zeroNumber(a); //n = N+1 =log_10(a) / 9 + 1
+	int p=14;  //‚¸‚ç‚·•ª‚Ì10^p
 
 	c0=isZero(a); //Å‰‚Éa‚É‚Â‚¢‚Ä”»’è‚µ‚ÄÀs‚Å‚«‚é‚©Šm‚©‚ß‚é
 	if(c0==0){
@@ -986,31 +1143,24 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 	if(c0==-1){
 		setSign(a,1); //‚¢‚Á‚½‚ñ+‚ÉƒZƒbƒg‚·‚é
 		c2=-1; //‚ ‚Æ‚Å-‚Ì•„†‚ğ‚Â‚¯‚é‚½‚ß‚É
-
-	}
-	
-	setInt(&eps,10); //
-	setInt(&pow1,10); //10^{-N}‚Ì10‚Ì‚Æ‚±‚ë N=log10 aiˆø”j
-	setInt(&tei1,0.2); //‰Šú’lŒˆ‚ß‚é‚É•K—v‚È0.2    ­”‘Î‰‚µ‚Ä‚È‚¢‚©‚ç‚Ç‚±‚©‚Å”{”‚©‚¯‚½‚¢
-	setInt(&tei0,2); //2.0
-
-
-	for(i=0;i<8;i++){ //EPS:10^{-8} ‹t”‚Ìd‘g‚İ‚ªŠ®¬‚µ‚½‚çÄ‹NŒÄ‚Ño‚µ‚·‚é‚Ì‚à‚ ‚è	
-		divBy10(&eps,&eps);
 	}
 
-	a1=logarithm10(a); //N(pow2)=log10 a
+	//‰Šú’lƒZƒbƒg
+	setInt(&eps,1);
+	mul10E(&eps,9); //‹@ŠBƒCƒvƒVƒƒ“‚ÌƒZƒbƒg 10^9
 
-	copyNumber(&a1,&pow2);
+	setInt(&tei2,2);
+	copyNumber(&tei2,&x);
 
-	setSign(&pow2,-1);  //-N
+	c1=p-n-1;  //‚¸‚ç‚·
 
-	power(&pow1,&pow2,&pow3); //10^{-N}‚Ì‚Æ‚±‚ë‚ğ‚â‚Á‚Ä‚¨‚­  pow3<=pow1^(pow2)
+	mul10E(&x,c1);  //x=2.0*10^{p-n-1}
+	setInt(&tei0,2);
+	mul10E(&tei0,p);  //x=y*(2.0-a*y)‚Ì2.0‚à10^p”{‚·‚é
 
-	multiple(&tei1,&pow3,&x); //x=0.2*pow(10.0,-(double)((int)log10(a)))‚Ì‚Æ‚±‚ë
 
 	while(1){
-		copyNumber(&x,&y);
+		copyNumber(&x,&y);  //‚P‚Â‘O‚Ìx
 
 		multiple(a,&y,&tei2);  //te2=a*y
 
@@ -1022,27 +1172,21 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 
 		getAbs(&j,&g);   //’¼‚·	
 
-		c1=numComp(&g,&eps); 
-
-		if(c1==-1){
+		if(numComp(&g,&eps)==-1||numComp(&g,&eps)==0){
 			break; //g<eps‚Æ”äŠr‚·‚é‚±‚Æ‚Å\•ª‚É³Šm‚È’l‚ğ‹‚ßØ‚Á‚½‚©‚ğŠm”F
 		}
-		
 	}
 
 	if(c2<0){
 		setSign(&x,(int)-1); //-‚ÉƒZƒbƒg‚·‚é
 	}
 
-
-
 	copyNumber(&x,b); //‹t”‚ğ•Ô‚·‚Æ‚±‚ë‚Éxi“š‚¦j‚ğ“ü‚ê‚é
 
-	return 0; //³íI—¹
-
-
-
+	return 0; //³íI
 }
+
+
 
 int zeta(Number* a,Number* f){ 
 
@@ -1207,7 +1351,7 @@ Number catalan()
 		printf("c");
 
 
-		divide(&Keta, &tmp1, &a, &tmp2);  //a<=Keta/tmp1   ‚±‚±‚Åketa=8ˆÈã‚É‚È‚é‚Æd‚­‚È‚é
+		Evodivide(&Keta, &tmp1, &a, &tmp2);  //a<=Keta/tmp1   ‚±‚±‚Åketa=8ˆÈã‚É‚È‚é‚Æd‚­‚È‚é
 
 		//dispNumber(&a);
 		printf("a\n");
@@ -1230,7 +1374,6 @@ Number catalan()
 
 
 int main(){
-	Number C,b;
-	C=catalan();
-	dispNumber(&C);
+
+
 }
