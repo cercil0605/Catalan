@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <time.h>
+
 #define KETA 1000
 
 typedef struct NUMBER
@@ -1306,16 +1307,19 @@ Number kaijo(Number* a){
             break;
         }
     }
-	copyNumber(&a1,a);
+	copyNumber(&a1,a);  //引数のやつにも答えを入れる
     return a1;  //答えを返すお
 }
 
 Number kensan(){    //計算の形はできたけど何倍か掛けて、たばいちょうに表示するとこができない
-    Number bunbo,bunshi,one,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value;
+    Number Keta,bunbo,bunshi,one,eps,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value,twon,tmp;
+	int keta=100;
 
-    clearByZero(&bunbo);
+    clearByZero(&bunbo);  
 	clearByZero(&bunshi);
 	setInt(&one,1);
+	setInt(&Keta,1);
+	setInt(&eps,1);
 	setInt(&two,2);
 	setInt(&forty,40);
 	setInt(&twe4,24);
@@ -1323,7 +1327,10 @@ Number kensan(){    //計算の形はできたけど何倍か掛けて、たばいちょうに表示すると
 	setInt(&four,4);
 	setInt(&eight,8);
 	setInt(&six4,64);
-	copyNumber(&one,&n);
+	copyNumber(&one,&n);    //n=1
+
+
+	mul10E(&Keta,keta);  //Keta=10^{keta}
 
 	while(1){
 
@@ -1332,17 +1339,21 @@ Number kensan(){    //計算の形はできたけど何倍か掛けて、たばいちょうに表示すると
 		power(&two,&n8,&c1); //c1=2^(8*n)  c1後で使う
 
 		power(&n,&two,&n8); //n8=n^2
-	    multiple(&forty,&n8,&c0);  //c0=40*n^2
+
+	    multiple(&forty,&n8,&c0);   //c0=40*n^2
 		multiple(&twe4,&n,&c2);  //c2=24*n
 		sub(&c0,&c2,&c3);  //c0-c2=c3
-		add(&c3,&three,&c2);  //c2=c3+3   →40*n^2-24*n+3  c2後で使う
+		add(&c3,&three,&c2);  //c2=c3+3   →40*n^2-24*n+3 =c2
 
 		multiple(&two,&n,&n8);  //n8=2*n
-
-		kaijo(&n8);
+		copyNumber(&n8,&twon);  //twon=2*n
+		
+		kaijo(&n8);  //n8=(2*n)!
 		power(&n8,&three,&c3);  //c3=((2*n!))^3
-		kaijo(&n);
-		power(&n,&two,&c0);  //c0=(n!)^2
+
+	    copyNumber(&n,&c4);  //c4=n  階乗関数利用のためにコピー
+		kaijo(&c4);  //c4=n!
+		power(&c4,&two,&c0);  //c0=(n!)^2
 
 
 		multiple(&c1,&c2,&c4);  //c4=c1*c2
@@ -1350,21 +1361,34 @@ Number kensan(){    //計算の形はできたけど何倍か掛けて、たばいちょうに表示すると
 
 		//c4*c5=分子
 
+
 		multiple(&c4,&c5,&bunshi);
+
+		multiple(&bunshi,&Keta,&c4);  //めっちゃ倍数掛ける（正確に計算）
+		copyNumber(&c4,&bunshi);
 		//ここまでで分子求めた
 
 		power(&n,&three,&c0);  //c0=n^3
-		sub(&n8,&one,&c1);  //c1=2*n-1
-		multiple(&two,&n8,&c3);   //c3=4*n
-		kaijo(&c3);
+		sub(&twon,&one,&c1);  //c1=2*n-1
+		multiple(&two,&twon,&c3);   //c3=(2*n)*2=4*n
+		kaijo(&c3); //(4*n)!
         power(&c3,&two,&c4);   //c4=(4*n!)^2
 
 		multiple(&c0,&c1,&c5);   //c5=c0*c1=(n^3)*(2*n-1)
 		multiple(&c5,&c4,&bunbo);   //bunbo=c5*c4=c5*((4*n!)^2)
+		multiple(&six4,&bunbo,&c5);
+		copyNumber(&c5,&bunbo);  
 
-		//ここまでで分母求めた
+		//ここまでで分母求めた  64*n^3*(2*n-1)*[(4*n)!]^2
 
-		divide(&bunbo,&bunshi,&h,&h1);  //h=Σのところ
+		ultimatedivide(&bunshi,&bunbo,&h);  //h=Σのところ
+
+		if (numComp(&h, &eps) == -1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
+		{
+			break;
+		}
+		//printf("a");
+
 
 
 		if(n.n[0]%2==0){  //+もしくは-かをつける
@@ -1377,20 +1401,23 @@ Number kensan(){    //計算の形はできたけど何倍か掛けて、たばいちょうに表示すると
 			add(&value, &h, &h1);  //h1=value+h
 			copyNumber(&h1, &value);  //value+=h
 		}
+		//dispNumber(&value);
+		//printf("\n");
+
+		inc(&n);
+
+
 	}
 
-	divide(&value,&six4,&h,&h1);   //G=(Σ....)/64  
-
-	return h;
+	return value;
 }
-
 Number catalan()
 //カタラン定数を定義により求める
 //戻り値...カタラン定数
 {
 	Number value, a, two, loop, tmp, tmp1, tmp2, Keta;
 	int i;
-	int keta = 990;
+	int keta = 8;
 
 	setInt(&two, 2);
 	clearByZero(&loop);
@@ -1410,20 +1437,20 @@ Number catalan()
 		inc(&tmp);  //インクリメント  2*n+1
 		power(&tmp, &two, &tmp1);  //(2*n+1)^2=tmp1
 
-		printf("b");
+		//printf("b");
 
 
 		if (numComp(&Keta, &tmp1) == -1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
 		{
 			break;
 		}
-		printf("c");
+		//printf("c");
 
 
 		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   ここでketa=8以上になると重くなる
 
 		//dispNumber(&a);
-		printf("a\n");
+		//printf("a\n");
 
 		if (loop.n[0] % 2 == 0)  //奇数偶数で計算パターンを変更
 		{
@@ -1445,16 +1472,9 @@ Number catalan()
 int main(){
 	Number C,B,D;
 	
-	setInt(&C,9876);
-	setInt(&B,1234);
-	setSign(&C,-1);
-	setSign(&B,-1);
-	mul10E(&C,100);
-	mul10E(&B,100);
-	clearByZero(&D);
-
-	ultimatedivide(&C,&B,&D);
-	dispNumber(&D);
+	clearByZero(&C);
+	C=kensan();
+	dispNumber(&C);
 
 	
 }
