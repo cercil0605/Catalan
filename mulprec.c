@@ -249,11 +249,10 @@ int mul10E(Number* a,int i){  //10^i‚µ‚½’l‚ğˆø”‚Ì‚Æ‚±‚ë‚É‚Ü‚ñ‚Ü•Ô‚·
     while(1){
 		mulBy10(a,&b);
 		copyNumber(&b,a);
-		i--;
-		if(i==0){
+		if(i<=1){
 			break;
 		}
-
+		i--;
 	}
 
 	
@@ -296,10 +295,10 @@ int div10E(Number* a,int i){
 
 		divBy10(a,&b);
 		copyNumber(&b,a);
-		i--;
-		if(i==0){
+		if(i<=1){
 			break;
 		}
+		i--;
 
 	}
 
@@ -1128,11 +1127,11 @@ Number logarithm10(Number* a){ //log10 a‚ğ‹‚ß‚é
 	return ans; //³íI—¹  •Ô‚è’l‚Í“š‚¦(NumberŒ^)
 }
 
-int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ“‚Í2Ÿû‘©
+int inverseNumber(Number* a,Number* b,int p){ //a‚Ì‹t”‚ğNumber* b ‚É•Ô‚·  p‚Í¸“x ‚±‚Ì‹t”ƒ‹[ƒ`ƒ“‚Í2Ÿû‘©
 	Number eps,x,y,g,x1,pow1,pow2,pow3,tei1,tei2,tei0,h,j,a1;
 	int i,c1,c0,c2;
 	int n = KETA - zeroNumber(a); //n = N+1 =log_10(a) / 9 + 1
-	int p=14;  //‚¸‚ç‚·•ª‚Ì10^p
+     //‚¸‚ç‚·•ª‚Ì10^p
 
 	c0=isZero(a); //Å‰‚Éa‚É‚Â‚¢‚Ä”»’è‚µ‚ÄÀs‚Å‚«‚é‚©Šm‚©‚ß‚é
 	if(c0==0){
@@ -1147,7 +1146,7 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 
 	//‰Šú’lƒZƒbƒg
 	setInt(&eps,1);
-	mul10E(&eps,9); //‹@ŠBƒCƒvƒVƒƒ“‚ÌƒZƒbƒg 10^9
+	//mul10E(&eps,9); //‹@ŠBƒCƒvƒVƒƒ“‚ÌƒZƒbƒg ƒÃ=1
 
 	setInt(&tei2,2);
 	copyNumber(&tei2,&x);
@@ -1168,6 +1167,8 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 		
 		multiple(&y,&h,&x); //x=y*(2.0-a*y)
 
+		div10E(&x,p);   //‚¸‚ê‚Ä‚ñ‚Ì‚Å‚»‚Ì•ª’¼‚µ‚â‚·
+
 		sub(&x,&y,&j);  //j=x-y
 
 		getAbs(&j,&g);   //’¼‚·	
@@ -1186,7 +1187,75 @@ int inverseNumber(Number* a,Number* b){ //‹t”‚ğNumber* b ‚É•Ô‚· ‚±‚Ì‹t”ƒ‹[ƒ`ƒ
 	return 0; //³íI
 }
 
+int SampleOFultimatedivide(Number* a,Number* b){  //  a/b‚µ‚½’l‚ğb‚É•Ô‚·  +‚µ‚©‘Î‰‚µ‚Ä‚È‚¢‚¨
+	Number d,e,f;
+	int n=KETA-zeroNumber(a)+3;  //¸“x=”íœ”‚ÌŒ…”+3
 
+
+
+
+	inverseNumber(b,&d,n);  //œ”‚Ì‹t”‚ğ‚Æ‚é
+	multiple(a,&d,&e);   //Q=NX(”íœ”~œ”‚Ì‹t”)
+	div10E(&e,n);
+
+	copyNumber(&e,b);   //“š‚¦‚ğb‚É•Ô‚·
+
+
+}
+int ultimatedivide(Number* a, Number* b, Number* c)
+//
+//c <- a/b
+//
+//–ß‚è’l
+//0...³íI—¹
+//-1...Š„‚é”‚ª0
+{
+	Number m,d,e;
+
+	int n=KETA-zeroNumber(a)+3;
+
+	clearByZero(c);
+	//clearByZero(d);
+
+	if (isZero(b) == 0)
+	{
+		return -1;
+	}
+
+	int aSign = getSign(a);  //”íœ”‚Ì•„†æ“¾
+	int bSign = getSign(b);  //œ”‚Ì•„†æ“¾
+
+	if (aSign == 1 && bSign == 1) //+‚Ì
+	{
+		inverseNumber(b,&d,n);  //œ”‚Ì‹t”‚ğ‚Æ‚é
+		multiple(a,&d,&e);   //Q=NX(”íœ”~œ”‚Ì‹t”)
+		div10E(&e,n);  //‚¸‚ç‚·
+		copyNumber(&e,c);   //“š‚¦‚ğc‚É•Ô‚·
+
+			
+		}
+	else if (aSign == 1 && bSign == -1)  //”íœ”(+) œ”(-)
+	{
+		Number p;
+		getAbs(b, &p);
+		ultimatedivide(a, &p, c);
+		setSign(c, -1);
+	}
+	else if (aSign == -1 && bSign == 1)  //”íœ”(-) œ”(+)
+	{
+		Number p;
+		getAbs(a, &p);
+		ultimatedivide(&p, b, c);
+		setSign(c, -1);
+	}
+	else  //—¼•û‚Æ‚à(-)
+	{
+		Number p, q;
+		getAbs(a, &p);
+		getAbs(b, &q);
+		ultimatedivide(&p, &q, c);
+	}
+}
 
 int zeta(Number* a,Number* f){ 
 
@@ -1321,7 +1390,7 @@ Number catalan()
 {
 	Number value, a, two, loop, tmp, tmp1, tmp2, Keta;
 	int i;
-	int keta = 10;
+	int keta = 990;
 
 	setInt(&two, 2);
 	clearByZero(&loop);
@@ -1351,7 +1420,7 @@ Number catalan()
 		printf("c");
 
 
-		Evodivide(&Keta, &tmp1, &a, &tmp2);  //a<=Keta/tmp1   ‚±‚±‚Åketa=8ˆÈã‚É‚È‚é‚Æd‚­‚È‚é
+		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   ‚±‚±‚Åketa=8ˆÈã‚É‚È‚é‚Æd‚­‚È‚é
 
 		//dispNumber(&a);
 		printf("a\n");
@@ -1374,6 +1443,18 @@ Number catalan()
 
 
 int main(){
+	Number C,B,D;
+	
+	setInt(&C,9876);
+	setInt(&B,1234);
+	setSign(&C,-1);
+	setSign(&B,-1);
+	mul10E(&C,100);
+	mul10E(&B,100);
+	clearByZero(&D);
 
+	ultimatedivide(&C,&B,&D);
+	dispNumber(&D);
 
+	
 }
