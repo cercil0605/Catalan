@@ -6,12 +6,12 @@
 #include <time.h>
 #include <sys/timeb.h>
 
-#define KETA 2100
+#define KETA 2500
 
 typedef struct NUMBER
 {
-	int n[KETA];//ŠeŒ…‚Ì’l
-	int sign;//•„†•Ï”
+	int n[KETA];//å„æ¡ã®å€¤
+	int sign;//ç¬¦å·å¤‰æ•°
 }Number;
 
 int setSign(Number*, int);
@@ -39,9 +39,9 @@ int divide(Number*, Number*, Number*, Number*);
 int power(Number*, Number*, Number*);
 
 int setSign(Number* a, int s)
-//‘½”{’·•Ï”a‚Ì•„†‚ğ
-//s=1‚È‚ç³‚ÉCs=-1‚È‚ç•‰‚Éİ’è‚µ‚Ä0‚ğ•Ô‚·
-//‚»‚êˆÈŠO‚È‚çƒGƒ‰[‚Æ‚µ‚Ä-1‚ğ•Ô‚·
+//å¤šå€é•·å¤‰æ•°aã®ç¬¦å·ã‚’
+//s=1ãªã‚‰æ­£ã«ï¼Œs=-1ãªã‚‰è² ã«è¨­å®šã—ã¦0ã‚’è¿”ã™
+//ãã‚Œä»¥å¤–ãªã‚‰ã‚¨ãƒ©ãƒ¼ã¨ã—ã¦-1ã‚’è¿”ã™
 {
 	if (s == 1)
 	{
@@ -59,7 +59,7 @@ int setSign(Number* a, int s)
 	}
 }
 
-int getSign(Number* a)//a‚ª0‚È‚ç1‚ğC•‰‚È‚ç-1‚ğ•Ô‚·
+int getSign(Number* a)//aãŒ0ãªã‚‰1ã‚’ï¼Œè² ãªã‚‰-1ã‚’è¿”ã™
 {
 	if (a->sign == 1)
 	{
@@ -71,7 +71,7 @@ int getSign(Number* a)//a‚ª0‚È‚ç1‚ğC•‰‚È‚ç-1‚ğ•Ô‚·
 	}
 }
 
-void clearByZero(Number* a)//‘½”{’·•Ï”‚Ì’l‚ğƒ[ƒƒNƒŠƒA‚µC•„†‚ğƒvƒ‰ƒX‚ÉƒZƒbƒg‚·‚é
+void clearByZero(Number* a)//å¤šå€é•·å¤‰æ•°ã®å€¤ã‚’ã‚¼ãƒ­ã‚¯ãƒªã‚¢ã—ï¼Œç¬¦å·ã‚’ãƒ—ãƒ©ã‚¹ã«ã‚»ãƒƒãƒˆã™ã‚‹
 {
 	int i;
 
@@ -83,7 +83,7 @@ void clearByZero(Number* a)//‘½”{’·•Ï”‚Ì’l‚ğƒ[ƒƒNƒŠƒA‚µC•„†‚ğƒvƒ‰ƒX‚ÉƒZƒbƒg‚
 	setSign(a, 1);
 }
 
-void dispNumber(Number* a)//a‚ğ•\¦‚·‚é
+void dispNumber(Number* a)//aã‚’è¡¨ç¤ºã™ã‚‹
 {
 	int i;
 
@@ -103,10 +103,10 @@ void dispNumber(Number* a)//a‚ğ•\¦‚·‚é
 }
 
 int zeroNumber(Number* a)
-//‘½”{’·•Ï”‚ÌãˆÊ‚É‚ ‚é0‚ğ”‚¦‚éŠÖ”
+//å¤šå€é•·å¤‰æ•°ã®ä¸Šä½ã«ã‚ã‚‹0ã‚’æ•°ãˆã‚‹é–¢æ•°
 //
-//–ß‚è’l
-//‘½”{’·•Ï”‚ÌãˆÊ‚É‚ ‚é0‚Ì”
+//æˆ»ã‚Šå€¤
+//å¤šå€é•·å¤‰æ•°ã®ä¸Šä½ã«ã‚ã‚‹0ã®æ•°
 {
 	int zeroNumber = 0;
 	int i;
@@ -126,7 +126,7 @@ int zeroNumber(Number* a)
 	return zeroNumber;
 }
 
-void dispNumberZeroSuppress(Number* a) //ƒ[ƒƒTƒvƒŒƒX”ÅdispNumber()
+void dispNumberZeroSuppress(Number* a) //ã‚¼ãƒ­ã‚µãƒ—ãƒ¬ã‚¹ç‰ˆdispNumber()
 {
 	int i;
 	int zero = zeroNumber(a);
@@ -153,11 +153,11 @@ void dispNumberZeroSuppress(Number* a) //ƒ[ƒƒTƒvƒŒƒX”ÅdispNumber()
 }
 
 int isZero(Number* a)
-//a‚ªƒ[ƒ‚©”»•Ê‚·‚é
+//aãŒã‚¼ãƒ­ã‹åˆ¤åˆ¥ã™ã‚‹
 //
-//–ß‚è’l
-//0EEEa==0
-//-1EEEa!=0
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»a==0
+//-1ãƒ»ãƒ»ãƒ»a!=0
 {
 	int i;
 
@@ -176,7 +176,7 @@ int isZero(Number* a)
 	return 0;
 }
 
-void setRnd(Number* a, int k)//a‚Ì‰ºˆÊkŒ…‚É—”’l‚ğƒZƒbƒg‚·‚é
+void setRnd(Number* a, int k)//aã®ä¸‹ä½kæ¡ã«ä¹±æ•°å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 {
 	int i;
 
@@ -198,11 +198,11 @@ void setRnd(Number* a, int k)//a‚Ì‰ºˆÊkŒ…‚É—”’l‚ğƒZƒbƒg‚·‚é
 
 }
 
-void copyNumber(Number* a, Number* b)//a‚ğb‚ÉƒRƒs[‚·‚é
+void copyNumber(Number* a, Number* b)//aã‚’bã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
 {
 	int i;
 
-	setSign(b,getSign(a));
+	setSign(b,getSign(a));   //
 
 	for (i = 0; i < KETA; i++) 
 	{
@@ -210,18 +210,18 @@ void copyNumber(Number* a, Number* b)//a‚ğb‚ÉƒRƒs[‚·‚é
 	}
 }
 
-void getAbs(Number* a, Number* b)//a‚Ìâ‘Î’l‚ğb‚É•Ô‚·
+void getAbs(Number* a, Number* b)//aã®çµ¶å¯¾å€¤ã‚’bã«è¿”ã™
 {
 	copyNumber(a, b);
 	setSign(b,1);
 }
 
 int mulBy10(Number* a, Number* b)
-//a‚ğ10”{‚µ‚Äb‚É•Ô‚·
+//aã‚’10å€ã—ã¦bã«è¿”ã™
 //
-//–ß‚è’l
-//0EEE³íI—¹
-//-1EEEƒI[ƒo[ƒtƒ[
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»æ­£å¸¸çµ‚äº†
+//-1ãƒ»ãƒ»ãƒ»ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼
 {
 	int i;
 
@@ -245,9 +245,8 @@ int mulBy10(Number* a, Number* b)
 	return 0;
 }
 
-int mul10E(Number* a,int i){  //10^i‚µ‚½’l‚ğˆø”‚Ì‚Æ‚±‚ë‚É‚Ü‚ñ‚Ü•Ô‚·
+int mul10E(Number* a,int i){  //10^iã—ãŸå€¤ã‚’å¼•æ•°ã®ã¨ã“ã‚ã«ã¾ã‚“ã¾è¿”ã™
 	Number b;
-	clearByZero(&b);
 
     while(1){
 		mulBy10(a,&b);
@@ -263,21 +262,37 @@ int mul10E(Number* a,int i){  //10^i‚µ‚½’l‚ğˆø”‚Ì‚Æ‚±‚ë‚É‚Ü‚ñ‚Ü•Ô‚·
 }
 
 
+int divBy10(Number* a, Number* b) 
+//aã‚’1/10å€ã—ã¦bã«è¿”ã™
+//
+//æˆ»ã‚Šå€¤
+//aã‚’10ã§å‰²ã£ãŸä½™ã‚Š
+{
+	int i;
+	int zero = zeroNumber(a);
 
-int divBy10(struct NUMBER *a , struct NUMBER *b){
-    int i;
 	clearByZero(b);
 
-    b->n[KETA-1] = 0;
-    for(i=0;i<KETA-1;i++){
-        b->n[i] = a->n[i+1];
-    }
-    return a->n[0];
+	for (i = 0; i < KETA-1-zero; i++) 
+	{
+		b->n[i] = a->n[i + 1];
+	}
+
+	b->n[KETA - 1 - zero] = 0;
+	setSign(b, getSign(a));
+
+	if (getSign(a) == 1) 
+	{
+		return a->n[0];
+	}
+	else 
+	{
+		return (a->n[0] * (-1));
+	}
 }
 
 int div10E(Number* a,int i){
 	Number b;
-	clearByZero(&b);
 	while(1){
 
 		divBy10(a,&b);
@@ -295,11 +310,11 @@ int div10E(Number* a,int i){
 
 
 int setInt(Number* a, int x)
-//‘½”{’·•Ï”a‚ÉintŒ^•Ï”x‚Ì’l‚ğİ’è‚·‚é
+//å¤šå€é•·å¤‰æ•°aã«intå‹å¤‰æ•°xã®å€¤ã‚’è¨­å®šã™ã‚‹
 //
-//–ß‚è’l
-//0EEE³íI—¹
-//-1EEEx‚Ì’l‚ªa‚Éİ’è‚µ‚«‚ê‚È‚©‚Á‚½
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»æ­£å¸¸çµ‚äº†
+//-1ãƒ»ãƒ»ãƒ»xã®å€¤ãŒaã«è¨­å®šã—ãã‚Œãªã‹ã£ãŸ
 {
 	int i;
 	int aLen = KETA;
@@ -357,12 +372,12 @@ int setInt(Number* a, int x)
 }
 
 int numComp(Number* a, Number* b)
-//2‚Â‚Ì‘½”{’·•Ï”a,b‚Ì‘å¬‚ğ”äŠr‚·‚é
+//2ã¤ã®å¤šå€é•·å¤‰æ•°a,bã®å¤§å°ã‚’æ¯”è¼ƒã™ã‚‹
 //
-//–ß‚è’l
-//0EEEa==b
-//1EEEa>b
-//-1EEEa<b
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»a==b
+//1ãƒ»ãƒ»ãƒ»a>b
+//-1ãƒ»ãƒ»ãƒ»a<b
 {
 	if (getSign(a) == 1 && getSign(b) == -1)
 	{
@@ -439,11 +454,11 @@ int numComp(Number* a, Number* b)
 }
 
 int getInt(Number* a, int* x)
-//intŒ^•Ï”x‚É‘½”{’·•Ï”a‚Ì’l‚ğİ’è‚·‚é
+//intå‹å¤‰æ•°xã«å¤šå€é•·å¤‰æ•°aã®å€¤ã‚’è¨­å®šã™ã‚‹
 //
-//–ß‚è’l
-//0EEE³íI—¹
-//-1EEEa‚Ì’l‚ªx‚Éİ’è‚µ‚«‚ê‚È‚©‚Á‚½
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»æ­£å¸¸çµ‚äº†
+//-1ãƒ»ãƒ»ãƒ»aã®å€¤ãŒxã«è¨­å®šã—ãã‚Œãªã‹ã£ãŸ
 {
 	int i;
 	int zero = zeroNumber(a);
@@ -477,7 +492,7 @@ int getInt(Number* a, int* x)
 	}
 }
 
-void swap(Number* a, Number* b)//a‚Æb‚ğŒğŠ·‚·‚é
+void swap(Number* a, Number* b)//aã¨bã‚’äº¤æ›ã™ã‚‹
 {
 	Number c = *a;
 	*a = *b;
@@ -487,9 +502,9 @@ void swap(Number* a, Number* b)//a‚Æb‚ğŒğŠ·‚·‚é
 int add(Number* a, Number* b, Number* c)
 //c <- a+b
 //
-//–ß‚è’l
-//0EEE³íI—¹
-//-1EEEƒI[ƒo[ƒtƒ[
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»æ­£å¸¸çµ‚äº†
+//-1ãƒ»ãƒ»ãƒ»ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼
 {
 	int i, d;
 	int e = 0;
@@ -559,9 +574,9 @@ int add(Number* a, Number* b, Number* c)
 int sub(Number* a, Number* b, Number* c)
 //c <- a-b
 //
-//–ß‚è’l
-//0EEE³íI—¹
-//-1EEEƒI[ƒo[ƒtƒ[
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»æ­£å¸¸çµ‚äº†
+//-1ãƒ»ãƒ»ãƒ»ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼
 {
 	clearByZero(c);
 
@@ -655,8 +670,6 @@ int inc(Number* a)
 //a+1
 {
 	Number one, b;
-	clearByZero(&b);
-
 	int r;
 
 	setInt(&one, 1);
@@ -685,7 +698,6 @@ int dec(Number* a)
 //a-1
 {
 	Number one, b;
-	clearByZero(&b);
 	int r;
 
 	setInt(&one, 1);
@@ -702,9 +714,9 @@ int dec(Number* a)
 int multiple(Number* a, Number* b, Number* c)
 //c <- a*b
 //
-//–ß‚è’l
-//0EEE³íI—¹
-//-1EEEƒI[ƒo[ƒtƒ[
+//æˆ»ã‚Šå€¤
+//0ãƒ»ãƒ»ãƒ»æ­£å¸¸çµ‚äº†
+//-1ãƒ»ãƒ»ãƒ»ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼
 {
 	int i, j, e, h, r;
 	Number d,tmpC;
@@ -732,7 +744,7 @@ int multiple(Number* a, Number* b, Number* c)
 			for (j = 0; j < KETA - aZero + 1; j++)
 			{
 				e = a->n[j] * b->n[i] + h;
-				if (i + j > KETA - 1 && e != 0)/* a->n[] * b->[i] ‚ªƒI[ƒo[ƒtƒ[*/
+				if (i + j > KETA - 1 && e != 0)/* a->n[] * b->[i] ãŒã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼*/
 				{
 					clearByZero(c);
 					return -1;
@@ -740,7 +752,7 @@ int multiple(Number* a, Number* b, Number* c)
 
 				d.n[i + j] |= e % 10;
 				h = (e - e % 10) / 10;
-				if (h != 0 && i + j >= KETA - 1)/*ÅãˆÊ‚ÌŒ…‚Ü‚ÅŒvZ‚µ‚Ä‚à‚È‚¨ŒJã‚è‚ª‚ ‚é*/
+				if (h != 0 && i + j >= KETA - 1)/*æœ€ä¸Šä½ã®æ¡ã¾ã§è¨ˆç®—ã—ã¦ã‚‚ãªãŠç¹°ä¸Šã‚ŠãŒã‚ã‚‹*/
 				{
 					clearByZero(c);
 					return -1;
@@ -749,7 +761,7 @@ int multiple(Number* a, Number* b, Number* c)
 
 			r = add(&tmpC, &d, c);
 
-			if (r == -1)/*‰ÁZ‚ÅƒI[ƒo[ƒtƒ[*/
+			if (r == -1)/*åŠ ç®—ã§ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼*/
 			{
 				return r;
 			}
@@ -794,9 +806,9 @@ int divide(Number* a, Number* b, Number* c, Number* d)
 //c <- a/b
 //d <- a%d
 //
-//–ß‚è’l
-//0...³íI—¹
-//-1...Š„‚é”‚ª0
+//æˆ»ã‚Šå€¤
+//0...æ­£å¸¸çµ‚äº†
+//-1...å‰²ã‚‹æ•°ãŒ0
 {
 	Number n, m;
 
@@ -857,13 +869,13 @@ int divide(Number* a, Number* b, Number* c, Number* d)
 }
 
 int Evodivide(Number* a, Number* b, Number* c, Number* d)
-//i‰»”Å
+//é€²åŒ–ç‰ˆ
 //c <- a/b
 //d <- a%d
 //
-//–ß‚è’l
-//0...³íI—¹
-//-1...Š„‚é”‚ª0
+//æˆ»ã‚Šå€¤
+//0...æ­£å¸¸çµ‚äº†
+//-1...å‰²ã‚‹æ•°ãŒ0
 {
 	Number n, m,f,g,flag;
 
@@ -885,7 +897,7 @@ int Evodivide(Number* a, Number* b, Number* c, Number* d)
 
 		while (1)
 		{
-			if (numComp(a, b) == -1)  //a<b‚È‚ç‚¨‚µ‚Ü‚¢
+			if (numComp(a, b) == -1)  //a<bãªã‚‰ãŠã—ã¾ã„
 			{
 				copyNumber(a, d);
 				break;
@@ -899,10 +911,10 @@ int Evodivide(Number* a, Number* b, Number* c, Number* d)
                     copyNumber(&n,&f);  //f*=10
                     if(numComp(a,&f)==-1){
                         divBy10(&f,&n);
-                        copyNumber(&n,&f);  //a>f‚ÌÅ‘å‚Ìf
+                        copyNumber(&n,&f);  //a>fã®æœ€å¤§ã®f
                         break;
                     }
-                    inc(&flag); //10‚ğ‚©‚¯‚½‰ñ”
+                    inc(&flag); //10ã‚’ã‹ã‘ãŸå›æ•°
                 }
 
                 while (1)
@@ -911,7 +923,7 @@ int Evodivide(Number* a, Number* b, Number* c, Number* d)
                     copyNumber(&n,&g);  //g*=10
                     dec(&flag);
                     if(isZero(&flag)==0){
-                        break;  //‰ñ”•ª‚©‚¯‚½‚Ì‚Åok‚Ç‚·‚¦
+                        break;  //å›æ•°åˆ†ã‹ã‘ãŸã®ã§okã©ã™ãˆ
                     }
                 }
                 sub(a,&f,&n);
@@ -954,9 +966,9 @@ int power(Number* a, Number* b, Number* c)
 //
 //c <- a^b
 //
-//–ß‚è’l
-//0...³íI—¹
-//-1...ƒI[ƒo[ƒtƒ[‚Ü‚½‚ÍƒAƒ“ƒ_[ƒtƒ[
+//æˆ»ã‚Šå€¤
+//0...æ­£å¸¸çµ‚äº†
+//-1...ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ã¾ãŸã¯ã‚¢ãƒ³ãƒ€ãƒ¼ãƒ•ãƒ­ãƒ¼
 //-1...b < 0
 {
 	clearByZero(c);
@@ -1037,40 +1049,39 @@ int power(Number* a, Number* b, Number* c)
 	}
 }
 
-int inverseNumber(Number* a,Number* b,int p){ //a‚Ì‹t”‚ğNumber* b ‚É•Ô‚·  p‚Í¸“x ‚±‚Ì‹t”ƒ‹[ƒ`ƒ“‚Í2Ÿû‘©
+int inverseNumber(Number* a,Number* b,int p){ //aã®é€†æ•°ã‚’Number* b ã«è¿”ã™  pã¯ç²¾åº¦ ã“ã®é€†æ•°ãƒ«ãƒ¼ãƒãƒ³ã¯2æ¬¡åæŸ
 	Number eps,x,y,g,x1,pow1,pow2,pow3,tei1,tei2,tei0,h,j,a1;
 	int i,c1,c0,c2;
 	int n = KETA - zeroNumber(a); //n = N+1 =log_10(a)
-     //‚¸‚ç‚·•ª‚Ì10^p
-	 c2=1;
+     //ãšã‚‰ã™åˆ†ã®10^p
 
-	c0=isZero(a); //Å‰‚Éa‚É‚Â‚¢‚Ä”»’è‚µ‚ÄÀs‚Å‚«‚é‚©Šm‚©‚ß‚é
+	c0=isZero(a); //æœ€åˆã«aã«ã¤ã„ã¦åˆ¤å®šã—ã¦å®Ÿè¡Œã§ãã‚‹ã‹ç¢ºã‹ã‚ã‚‹
 	if(c0==0){
-		printf("ˆÙíI—¹");
+		printf("ç•°å¸¸çµ‚äº†");
 		return -1;
 	}
 	c0=getSign(a);
 	if(c0==-1){
-		setSign(a,1); //‚¢‚Á‚½‚ñ+‚ÉƒZƒbƒg‚·‚é
-		c2=-1; //‚ ‚Æ‚Å-‚Ì•„†‚ğ‚Â‚¯‚é‚½‚ß‚É
+		setSign(a,1); //ã„ã£ãŸã‚“+ã«ã‚»ãƒƒãƒˆã™ã‚‹
+		c2=-1; //ã‚ã¨ã§-ã®ç¬¦å·ã‚’ã¤ã‘ã‚‹ãŸã‚ã«
 	}
 
-	//‰Šú’lƒZƒbƒg
+	//åˆæœŸå€¤ã‚»ãƒƒãƒˆ
 	setInt(&eps,1);
-	//mul10E(&eps,9); //‹@ŠBƒCƒvƒVƒƒ“‚ÌƒZƒbƒg ƒÃ=1
+	//mul10E(&eps,9); //æ©Ÿæ¢°ã‚¤ãƒ—ã‚·ãƒ­ãƒ³ã®ã‚»ãƒƒãƒˆ Îµ=1
 
 	setInt(&tei2,2);
 	copyNumber(&tei2,&x);
 
-	c1=p-n-1;  //‚¸‚ç‚·
+	c1=p-n-1;  //ãšã‚‰ã™
 
 	mul10E(&x,c1);  //x=2.0*10^{p-n-1}
 	setInt(&tei0,2);
-	mul10E(&tei0,p);  //x=y*(2.0-a*y)‚Ì2.0‚à10^p”{‚·‚é
+	mul10E(&tei0,p);  //x=y*(2.0-a*y)ã®2.0ã‚‚10^på€ã™ã‚‹
 
 
 	while(1){
-		copyNumber(&x,&y);  //‚P‚Â‘O‚Ìx
+		copyNumber(&x,&y);  //ï¼‘ã¤å‰ã®x
 
 		multiple(a,&y,&tei2);  //te2=a*y
 
@@ -1078,40 +1089,39 @@ int inverseNumber(Number* a,Number* b,int p){ //a‚Ì‹t”‚ğNumber* b ‚É•Ô‚·  p‚Í¸
 		
 		multiple(&y,&h,&x); //x=y*(2.0-a*y)
 
-		div10E(&x,p);   //‚¸‚ê‚Ä‚ñ‚Ì‚Å‚»‚Ì•ª’¼‚µ‚â‚·
+		div10E(&x,p);   //ãšã‚Œã¦ã‚“ã®ã§ãã®åˆ†ç›´ã—ã‚„ã™
 
 		sub(&x,&y,&j);  //j=x-y
 
-		getAbs(&j,&g);   //’¼‚·	
+		getAbs(&j,&g);   //ç›´ã™	
 
 		if(numComp(&g,&eps)==-1||numComp(&g,&eps)==0){
-			break; //g<eps‚Æ”äŠr‚·‚é‚±‚Æ‚Å\•ª‚É³Šm‚È’l‚ğ‹‚ßØ‚Á‚½‚©‚ğŠm”F
+			break; //g<epsã¨æ¯”è¼ƒã™ã‚‹ã“ã¨ã§ååˆ†ã«æ­£ç¢ºãªå€¤ã‚’æ±‚ã‚åˆ‡ã£ãŸã‹ã‚’ç¢ºèª
 		}
 	}
 
 	if(c2<0){
-		setSign(&x,(int)-1); //-‚ÉƒZƒbƒg‚·‚é
+		setSign(&x,(int)-1); //-ã«ã‚»ãƒƒãƒˆã™ã‚‹
 	}
 
-	copyNumber(&x,b); //‹t”‚ğ•Ô‚·‚Æ‚±‚ë‚Éxi“š‚¦j‚ğ“ü‚ê‚é
+	copyNumber(&x,b); //é€†æ•°ã‚’è¿”ã™ã¨ã“ã‚ã«xï¼ˆç­”ãˆï¼‰ã‚’å…¥ã‚Œã‚‹
 
-	return 0; //³íI
+	return 0; //æ­£å¸¸çµ‚
 }
 
 int ultimatedivide(Number* a, Number* b, Number* c)
 //
 //c <- a/b
 //
-//–ß‚è’l
-//0...³íI—¹
-//-1...Š„‚é”‚ª0
+//æˆ»ã‚Šå€¤
+//0...æ­£å¸¸çµ‚äº†
+//-1...å‰²ã‚‹æ•°ãŒ0
 {
 	Number m,d,e;
 
 	int n=KETA-zeroNumber(a)+3;
 
 	clearByZero(c);
-	clearByZero(&e);
 	//clearByZero(d);
 
 	if (isZero(b) == 0)
@@ -1119,33 +1129,33 @@ int ultimatedivide(Number* a, Number* b, Number* c)
 		return -1;
 	}
 
-	int aSign = getSign(a);  //”íœ”‚Ì•„†æ“¾
-	int bSign = getSign(b);  //œ”‚Ì•„†æ“¾
+	int aSign = getSign(a);  //è¢«é™¤æ•°ã®ç¬¦å·å–å¾—
+	int bSign = getSign(b);  //é™¤æ•°ã®ç¬¦å·å–å¾—
 
-	if (aSign == 1 && bSign == 1) //+‚Ì
+	if (aSign == 1 && bSign == 1) //+ã®æ™‚
 	{
-		inverseNumber(b,&d,n);  //œ”‚Ì‹t”‚ğ‚Æ‚é
-		multiple(a,&d,&e);   //Q=NX(”íœ”~œ”‚Ì‹t”)
-		div10E(&e,n);  //‚¸‚ç‚·
-		copyNumber(&e,c);   //“š‚¦‚ğc‚É•Ô‚·
+		inverseNumber(b,&d,n);  //é™¤æ•°ã®é€†æ•°ã‚’ã¨ã‚‹
+		multiple(a,&d,&e);   //Q=NX(è¢«é™¤æ•°Ã—é™¤æ•°ã®é€†æ•°)
+		div10E(&e,n);  //ãšã‚‰ã™
+		copyNumber(&e,c);   //ç­”ãˆã‚’cã«è¿”ã™
 
 			
 		}
-	else if (aSign == 1 && bSign == -1)  //”íœ”(+) œ”(-)
+	else if (aSign == 1 && bSign == -1)  //è¢«é™¤æ•°(+) é™¤æ•°(-)
 	{
 		Number p;
 		getAbs(b, &p);
 		ultimatedivide(a, &p, c);
 		setSign(c, -1);
 	}
-	else if (aSign == -1 && bSign == 1)  //”íœ”(-) œ”(+)
+	else if (aSign == -1 && bSign == 1)  //è¢«é™¤æ•°(-) é™¤æ•°(+)
 	{
 		Number p;
 		getAbs(a, &p);
 		ultimatedivide(&p, b, c);
 		setSign(c, -1);
 	}
-	else  //—¼•û‚Æ‚à(-)
+	else  //ä¸¡æ–¹ã¨ã‚‚(-)
 	{
 		Number p, q;
 		getAbs(a, &p);
@@ -1167,21 +1177,20 @@ Number kaijo(Number* a){
         multiple(&a1,&i,&b);  //b=a*i
         copyNumber(&b,&a1);   //a==b    a*=i
         inc(&i);
-        if(numComp(&i,a)==1){  //i>a‚È‚Ì‚Å‚â‚ß‚æ‚¤‚Ë
+        if(numComp(&i,a)==1){  //i>aãªã®ã§ã‚„ã‚ã‚ˆã†ã­
             break;
         }
     }
-	copyNumber(&a1,a);  //ˆø”‚Ì‚â‚Â‚É‚à“š‚¦‚ğ“ü‚ê‚é
-    return a1;  //“š‚¦‚ğ•Ô‚·‚¨
+	copyNumber(&a1,a);  //å¼•æ•°ã®ã‚„ã¤ã«ã‚‚ç­”ãˆã‚’å…¥ã‚Œã‚‹
+    return a1;  //ç­”ãˆã‚’è¿”ã™ãŠ
 }
 
-Number kensan(){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ‚±‚ª‚Å‚«‚È‚¢
+Number kensan(){    //è¨ˆç®—ã®å½¢ã¯ã§ããŸã‘ã©ä½•å€ã‹æ›ã‘ã¦ã€ãŸã°ã„ã¡ã‚‡ã†ã«è¡¨ç¤ºã™ã‚‹ã¨ã“ãŒã§ããªã„
     Number Keta,bunbo,bunshi,one,eps,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value,twon,tmp;
-	int keta=100;
+	int keta=1000;
 
     clearByZero(&bunbo);  
 	clearByZero(&bunshi);
-	clearByZero(&value);
 	setInt(&one,1);
 	setInt(&Keta,1);
 	setInt(&eps,1);
@@ -1204,14 +1213,14 @@ Number kensan(){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ
 
 		multiple(&eight,&n,&n8);  //n8=8*n
 
-		power(&two,&n8,&c1); //c1=2^(8*n)  c1Œã‚Åg‚¤
+		power(&two,&n8,&c1); //c1=2^(8*n)  c1å¾Œã§ä½¿ã†
 
 		power(&n,&two,&n8); //n8=n^2
 
 	    multiple(&forty,&n8,&c0);   //c0=40*n^2
 		multiple(&twe4,&n,&c2);  //c2=24*n
 		sub(&c0,&c2,&c3);  //c0-c2=c3
-		add(&c3,&three,&c2);  //c2=c3+3   ¨40*n^2-24*n+3 =c2
+		add(&c3,&three,&c2);  //c2=c3+3   â†’40*n^2-24*n+3 =c2
 
 		multiple(&two,&n,&n8);  //n8=2*n
 		copyNumber(&n8,&twon);  //twon=2*n
@@ -1219,7 +1228,7 @@ Number kensan(){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ
 		kaijo(&n8);  //n8=(2*n)!
 		power(&n8,&three,&c3);  //c3=((2*n!))^3
 
-	    copyNumber(&n,&c4);  //c4=n  ŠKæŠÖ”—˜—p‚Ì‚½‚ß‚ÉƒRƒs[
+	    copyNumber(&n,&c4);  //c4=n  éšä¹—é–¢æ•°åˆ©ç”¨ã®ãŸã‚ã«ã‚³ãƒ”ãƒ¼
 		kaijo(&c4);  //c4=n!
 		power(&c4,&two,&c0);  //c0=(n!)^2
 
@@ -1227,14 +1236,14 @@ Number kensan(){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ
 		multiple(&c1,&c2,&c4);  //c4=c1*c2
 		multiple(&c3,&c0,&c5);  //c5=c0*c3
 
-		//c4*c5=•ªq
+		//c4*c5=åˆ†å­
 
 
 		multiple(&c4,&c5,&bunshi);
 
-		multiple(&bunshi,&Keta,&c4);  //‚ß‚Á‚¿‚á”{”Š|‚¯‚éi³Šm‚ÉŒvZj
+		multiple(&bunshi,&Keta,&c4);  //ã‚ã£ã¡ã‚ƒå€æ•°æ›ã‘ã‚‹ï¼ˆæ­£ç¢ºã«è¨ˆç®—ï¼‰
 		copyNumber(&c4,&bunshi);
-		//‚±‚±‚Ü‚Å‚Å•ªq‹‚ß‚½
+		//ã“ã“ã¾ã§ã§åˆ†å­æ±‚ã‚ãŸ
 
 		power(&n,&three,&c0);  //c0=n^3
 		sub(&twon,&one,&c1);  //c1=2*n-1
@@ -1247,11 +1256,11 @@ Number kensan(){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ
 		multiple(&six4,&bunbo,&c5);
 		copyNumber(&c5,&bunbo);  
 
-		//‚±‚±‚Ü‚Å‚Å•ª•ê‹‚ß‚½  64*n^3*(2*n-1)*[(4*n)!]^2
+		//ã“ã“ã¾ã§ã§åˆ†æ¯æ±‚ã‚ãŸ  64*n^3*(2*n-1)*[(4*n)!]^2
 
-		ultimatedivide(&bunshi,&bunbo,&h);  //h=ƒ°‚Ì‚Æ‚±‚ë
+		ultimatedivide(&bunshi,&bunbo,&h);  //h=Î£ã®ã¨ã“ã‚
 
-		if (numComp(&h, &eps) == -1)  //‚½‚Î‚¢‚¿‚å‚¤‚ÅŒvZ‚Å‚«‚éŒ…”’´‚¦‚»‚¤‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
+		if (numComp(&h, &eps) == -1 ||numComp(&h,&eps)==0)  //ãŸã°ã„ã¡ã‚‡ã†ã§è¨ˆç®—ã§ãã‚‹æ¡æ•°è¶…ãˆãã†ã«ãªã£ãŸã‚‰ãŠã—ã¾ã„
 		{
 			break;
 		}
@@ -1259,7 +1268,7 @@ Number kensan(){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ
 
 
 
-		if(n.n[0]%2==0){  //+‚à‚µ‚­‚Í-‚©‚ğ‚Â‚¯‚é
+		if(n.n[0]%2==0){  //+ã‚‚ã—ãã¯-ã‹ã‚’ã¤ã‘ã‚‹
 
 			sub(&value, &h, &h1);  //h1=value-h
 			copyNumber(&h1, &value);  //value-=h
@@ -1283,8 +1292,8 @@ Number kensan(){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ
 	return value;
 }
 Number catalan()
-//ƒJƒ^ƒ‰ƒ“’è”‚ğ’è‹`‚É‚æ‚è‹‚ß‚é
-//–ß‚è’l...ƒJƒ^ƒ‰ƒ“’è”
+//ã‚«ã‚¿ãƒ©ãƒ³å®šæ•°ã‚’å®šç¾©ã«ã‚ˆã‚Šæ±‚ã‚ã‚‹
+//æˆ»ã‚Šå€¤...ã‚«ã‚¿ãƒ©ãƒ³å®šæ•°
 {
 	Number value, a, two, loop, tmp, tmp1, tmp2, Keta;
 	int i;
@@ -1295,7 +1304,7 @@ Number catalan()
 	setInt(&Keta,1);
 	clearByZero(&value);
 
-	for (i = 0; i < keta; i++)  //‚±‚±‚È‚É‚µ‚Ä‚ñ‚¾‚ë“ü‚éŒ…”‚ÌŠg‘å‚©‚â
+	for (i = 0; i < keta; i++)  //ã“ã“ãªã«ã—ã¦ã‚“ã ã‚å…¥ã‚‹æ¡æ•°ã®æ‹¡å¤§ã‹ã‚„
 	{
 		mulBy10(&Keta, &tmp);
 		copyNumber(&tmp, &Keta);  //Keta=10^{keta}
@@ -1305,28 +1314,28 @@ Number catalan()
 	while (1)
 	{
 		multiple(&two, &loop, &tmp);  //tmp=2*n
-		inc(&tmp);  //ƒCƒ“ƒNƒŠƒƒ“ƒg  2*n+1
+		inc(&tmp);  //ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ  2*n+1
 		power(&tmp, &two, &tmp1);  //(2*n+1)^2=tmp1
 
 		//printf("b");
 
 
-		if (numComp(&Keta, &tmp1) == -1)  //‚½‚Î‚¢‚¿‚å‚¤‚ÅŒvZ‚Å‚«‚éŒ…”’´‚¦‚»‚¤‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
+		if (numComp(&Keta, &tmp1) == -1)  //ãŸã°ã„ã¡ã‚‡ã†ã§è¨ˆç®—ã§ãã‚‹æ¡æ•°è¶…ãˆãã†ã«ãªã£ãŸã‚‰ãŠã—ã¾ã„
 		{
 			break;
 		}
 		//printf("c");
 
 
-		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   ‚±‚±‚Åketa=8ˆÈã‚É‚È‚é‚Æd‚­‚È‚é
+		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   ã“ã“ã§keta=8ä»¥ä¸Šã«ãªã‚‹ã¨é‡ããªã‚‹
 
 		//dispNumber(&a);
 		//printf("a\n");
 
-		if (loop.n[0] % 2 == 0)  //Šï”‹ô”‚ÅŒvZƒpƒ^[ƒ“‚ğ•ÏX
+		if (loop.n[0] % 2 == 0)  //å¥‡æ•°å¶æ•°ã§è¨ˆç®—ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å¤‰æ›´
 		{
 			add(&value, &a, &tmp2);  //tmp2=value+a
-			copyNumber(&tmp2, &value);  //value=tmp2  ‚·‚È‚í‚¿value+=a‚Ä‚±‚Æ
+			copyNumber(&tmp2, &value);  //value=tmp2  ã™ãªã‚ã¡value+=aã¦ã“ã¨
 		}
 		else
 		{
@@ -1350,11 +1359,10 @@ int main(){
   dispNumber(&C);
   cpu_time = clock();
  
-    /* •b‚É’¼‚· */
+    /* ç§’ã«ç›´ã™ */
     sec = (double)cpu_time / CLOCKS_PER_SEC;
      
-	 printf("\n");
-    printf("%f[s]\n", sec);
+    printf("%fç§’\n", sec);
 	
 
 	
