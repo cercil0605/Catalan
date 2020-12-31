@@ -1188,14 +1188,19 @@ int main(){
 
   long cpu_time;
   double sec;
+  int a=11;
   Number C,B,D;
   clearByZero(&C);
-  C=catalan2(8);
+  C=catalan2(a);
   dispNumber(&C);
   printf("\n");
   clearByZero(&D);
-  D=kensan2(8);
+  D=kensan2(a);
   dispNumber(&D);
+  if(numComp(&C,&D)==0){
+	  printf("\n");
+	  printf("定義式で計算した値と検算用の式で計算した値は一致した。");
+  }
 
   cpu_time = clock();
  

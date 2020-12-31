@@ -1,0 +1,77 @@
+\documentclass[a4j,dvipdfmx,titlepage]{jarticle}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{slashbox}
+\usepackage{bigstrut}
+\usepackage{here}
+\usepackage{cite}
+\usepackage{listings,jlisting}
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\title{アルゴリズムとデータ構造}
+\author{独立行政法人 国立高等専門学校機構長野工業高等専門学校
+\\
+3年 電子情報工学科
+\\
+渋谷圭亮
+\\
+}
+
+\begin{document}
+\maketitle
+\section{目的}
+カタラン定数$K$をC言語を用いた多倍長演算により、計算することを目的とする。
+\section{原理}
+まず、カタラン定数$K$は式1の通りに定義される。
+\begin{eqnarray}
+    \sum^{\infty}_{n=0}\frac{(-1)^{n}}{(2n+1)^2}=0.9159.....
+\end{eqnarray}
+今回は式1の計算を多倍長演算にて実装して、計算する。また、この式の演算により出力された値が正しいのかを確かめるために
+同じカタラン定数を示す式2も実装する。そして、これらで計算した値を比較することでカタラン定数を多倍長演算で正確に計算できたかを検証する。
+\begin{eqnarray}
+    K&=&\frac{1}{64}\sum^{\infty}_{n=1}\frac{(-1)^{n-1}2^{8n}(40n^2-24n+3)\{(2n)!\}^{-3}(n!)^2}{n^3(2n-1)\{(4n)!\}^2}
+\end{eqnarray}
+\section{実験}
+実際にC言語プログラムにて多倍長演算にて式1、式2らを実装する。
+今実験にてC言語プログラムを実行した環境を表\ref{a}に示す。
+\begin{table}[htb]
+    \begin{center}
+      \caption{実行環境}
+      \begin{tabular}{c|c} 
+       名称 & 型番 \\ \hline 
+        CPU & AMD Ryzen 7 3700X\\
+         M/B & Asrock X570 Taichi \\
+         RAM &  Corsair CMW16GX4M2C3600C18\\
+         GPU & GIGABYTE RTX 2070 Super AORUS\\
+        OS & Ubuntu 18.04.5 LTS\\ 
+        Compiler & gcc Version 7.5.0\\ 
+      \end{tabular}
+      \label{a}
+\end{center}
+\end{table}
+
+
+
+
+
+
+
+\end{document}
