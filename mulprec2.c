@@ -1,4 +1,4 @@
-//oppai is good
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -6,42 +6,25 @@
 #include <time.h>
 #include <sys/timeb.h>
 
-#define KETA 2500
+#define KETA 1000
 
 typedef struct NUMBER
 {
 	int n[KETA];//各桁の値
-	int sign;//符号変数
+	int sign;//符号
 }Number;
 
-int setSign(Number*, int);
-int getSign(Number*);
-void clearByZero(Number*);
-void dispNumber(Number*);
-int zeroNumber(Number*);
-void dispNumberZeroSuppress(Number*);
-int isZero(Number*);
-void setRnd(Number*, int);
-void copyNumber(Number*, Number*);
-void getAbs(Number*, Number*);
-int mulBy10(Number*, Number*);
-int divBy10(Number*, Number*);
-int setInt(Number*, int);
-int numComp(Number*, Number*);
-int getInt(Number*, int*);
-void swap(Number*, Number*);
-int sub(Number*, Number*, Number*);
 int add(Number*, Number*, Number*);
-int increment(Number*, Number*);
-int decrement(Number*, Number*);
-int multiple(Number*, Number*, Number*);
-int divide(Number*, Number*, Number*, Number*);
-int power(Number*, Number*, Number*);
+
+
+
+
+//int sub(Number*, Number*, Number*);  //宣言
 
 int setSign(Number* a, int s)
 //多倍長変数aの符号を
-//s=1なら正に，s=-1なら負に設定して0を返す
-//それ以外ならエラーとして-1を返す
+//s=1なら正に，s=-1なら負に設定して0
+//それ以外ならエラーとして-1
 {
 	if (s == 1)
 	{
@@ -59,7 +42,7 @@ int setSign(Number* a, int s)
 	}
 }
 
-int getSign(Number* a)//aが0なら1を，負なら-1を返す
+int getSign(Number* a)//aが0なら1を，負なら-1
 {
 	if (a->sign == 1)
 	{
@@ -71,11 +54,11 @@ int getSign(Number* a)//aが0なら1を，負なら-1を返す
 	}
 }
 
-void clearByZero(Number* a)//多倍長変数の値をゼロクリアし，符号をプラスにセットする
+void clearByZero(Number* a)//多倍長変数の値を全部ゼロにし、+の符号をつける
 {
 	int i;
 
-	for (i = 0; i < KETA; i++)
+	for (i = 0; i < KETA; i++)  //すべての配列を0にセット
 	{
 		a->n[i] = 0;
 	}
@@ -83,13 +66,13 @@ void clearByZero(Number* a)//多倍長変数の値をゼロクリアし，符号
 	setSign(a, 1);
 }
 
-void dispNumber(Number* a)//aを表示する
+void dispNumber(Number* a)//aを表示
 {
 	int i;
 
 	if (getSign(a) == 1) 
 	{
-		printf("+");
+		printf("+");  //符号を先に出力
 	}
 	else 
 	{
@@ -98,7 +81,7 @@ void dispNumber(Number* a)//aを表示する
 
 	for (i = KETA-1; i >= 0; i--) 
 	{
-		printf("%2d", a->n[i]);
+		printf("%2d", a->n[i]);  //間隔をあける
 	}
 }
 
@@ -113,7 +96,7 @@ int zeroNumber(Number* a)
 
 	for (i = KETA - 1; i >= 0; i--)
 	{
-		if (a->n[i] == 0)
+		if (a->n[i] == 0) //0があったのでzeronumberを足す
 		{
 			zeroNumber++;
 		}
@@ -123,45 +106,20 @@ int zeroNumber(Number* a)
 		}
 	}
 
-	return zeroNumber;
+	return zeroNumber;  //返す
 }
 
-void dispNumberZeroSuppress(Number* a) //ゼロサプレス版dispNumber()
-{
-	int i;
-	int zero = zeroNumber(a);
 
-	if (zero == KETA)
-	{
-		zero--;
-	}
-
-
-	if (getSign(a) == 1)
-	{
-		printf("+");
-	}
-	else
-	{
-		printf("-");
-	}
-
-	for(i = KETA - 1 - zero; i >= 0; i--) 
-	{
-		printf("%2d", a->n[i]);
-	}
-}
 
 int isZero(Number* a)
-//aがゼロか判別する
+//aがゼロか判別
 //
-//戻り値
 //0・・・a==0
 //-1・・・a!=0
 {
 	int i;
 
-	if (getSign(a) == -1)
+	if (getSign(a) == -1)  //マイナスなので
 	{
 		return -1;
 	}
@@ -173,36 +131,14 @@ int isZero(Number* a)
 		}
 	}
 
-	return 0;
+	return 0;  //終了
 }
 
-void setRnd(Number* a, int k)//aの下位k桁に乱数値をセットする
+void copyNumber(Number* a, Number* b)//aをbにコピー
 {
 	int i;
 
-	clearByZero(a);
-
-	for (i = 0; i < k; i++) 
-	{
-		a->n[i] = rand() % 10;
-	}
-
-	if (rand() % 2 == 0 || isZero(a) == 0) 
-	{
-		setSign(a, 1);
-	}
-	else
-	{
-		setSign(a,-1);
-	}
-
-}
-
-void copyNumber(Number* a, Number* b)//aをbにコピーする
-{
-	int i;
-
-	setSign(b,getSign(a));   //
+	setSign(b,getSign(a));  //符号も忘れずに
 
 	for (i = 0; i < KETA; i++) 
 	{
@@ -210,7 +146,7 @@ void copyNumber(Number* a, Number* b)//aをbにコピーする
 	}
 }
 
-void getAbs(Number* a, Number* b)//aの絶対値をbに返す
+void getAbs(Number* a, Number* b)//b=|a|
 {
 	copyNumber(a, b);
 	setSign(b,1);
@@ -247,6 +183,7 @@ int mulBy10(Number* a, Number* b)
 
 int mul10E(Number* a,int i){  //10^iした値を引数のところにまんま返す
 	Number b;
+	clearByZero(&b);
 
     while(1){
 		mulBy10(a,&b);
@@ -262,37 +199,21 @@ int mul10E(Number* a,int i){  //10^iした値を引数のところにまんま�
 }
 
 
-int divBy10(Number* a, Number* b) 
-//aを1/10倍してbに返す
-//
-//戻り値
-//aを10で割った余り
-{
-	int i;
-	int zero = zeroNumber(a);
 
+int divBy10(struct NUMBER *a , struct NUMBER *b){  //mulBy10の割り算バージョン
+    int i;
 	clearByZero(b);
 
-	for (i = 0; i < KETA-1-zero; i++) 
-	{
-		b->n[i] = a->n[i + 1];
-	}
-
-	b->n[KETA - 1 - zero] = 0;
-	setSign(b, getSign(a));
-
-	if (getSign(a) == 1) 
-	{
-		return a->n[0];
-	}
-	else 
-	{
-		return (a->n[0] * (-1));
-	}
+    b->n[KETA-1] = 0;
+    for(i=0;i<KETA-1;i++){
+        b->n[i] = a->n[i+1];
+    }
+    return a->n[0];
 }
 
-int div10E(Number* a,int i){
+int div10E(Number* a,int i){  //mul10Eの割り算バージョン
 	Number b;
+	clearByZero(&b);
 	while(1){
 
 		divBy10(a,&b);
@@ -312,32 +233,31 @@ int div10E(Number* a,int i){
 int setInt(Number* a, int x)
 //多倍長変数aにint型変数xの値を設定する
 //
-//戻り値
 //0・・・正常終了
 //-1・・・xの値がaに設定しきれなかった
 {
 	int i;
-	int aLen = KETA;
+	int Length = KETA;
 
-	clearByZero(a);
+	clearByZero(a);  //ひとまずキレイにする
 
-	if (x < 0)
+	if (x < 0)  //負の値か区別
 	{
 		setSign(a, -1);
 
-		for (i = 0; i < 10; i++)
+		for (i = 0; i < 10; i++)  //10進数であることに留意
 		{
 			if (x == 0)
 			{
 				return 0;
 			}
-			else if (aLen == 0)
+			else if (Length == 0)
 			{
 				clearByZero(a);
 				return -1;
 			}
 			a->n[i] = x % 10 * (-1);
-			aLen--;
+			Length--;
 			x = (x - x % 10) / 10;
 		}
 	}
@@ -349,13 +269,13 @@ int setInt(Number* a, int x)
 			{
 				return 0;
 			}
-			else if (aLen == 0)
+			else if (Length == 0)
 			{
 				clearByZero(a);
 				return -1;
 			}
 			a->n[i] = x % 10;
-			aLen--;
+			Length--;
 			x = (x - x % 10) / 10;
 		}
 	}
@@ -371,40 +291,58 @@ int setInt(Number* a, int x)
 	}
 }
 
+int getInt(struct NUMBER *a, int *x){
+    int i,ten = 1;
+    *x = 0;
+    for(i=0;i<KETA;i++){
+        if((a->n[i] + *x) > INT_MAX){
+            return -1;
+        }
+        *x += a->n[i] * ten;
+        ten *= 10;
+    }
+    if(a->sign == 0){
+        if(*x * -1 < INT_MIN){
+            return -1;
+        }
+        *x *= -1;
+    }
+    return 0;
+}
+
 int numComp(Number* a, Number* b)
-//2つの多倍長変数a,bの大小を比較する
+//2つの多倍長変数a,bの大小を比較
 //
-//戻り値
 //0・・・a==b
 //1・・・a>b
 //-1・・・a<b
 {
 	if (getSign(a) == 1 && getSign(b) == -1)
 	{
-		return 1;
+		return 1;  //a>b
 	}
 	else if (getSign(a) == -1 && getSign(b) == 1)
 	{
-		return -1;
+		return -1;  //a<b
 	}
-	else if (getSign(a) == 1 && getSign(b) == 1)
+	else if (getSign(a) == 1 && getSign(b) == 1)   //同じ符号なので(+ +)
 	{
 		int aZero = zeroNumber(a);
 		int bZero = zeroNumber(b);
 
 		if (aZero > bZero)
 		{
-			return -1;
+			return -1;  //上位の0の数を比較することで大きさを判別
 		}
 		else if (aZero < bZero)
 		{
 			return 1;
 		}
-		else
+		else   //判別できないので
 		{
 			int i;
 
-			for (i = KETA - 1 - aZero; i >= 0; i--)
+			for (i = KETA - 1 - aZero; i >= 0; i--)  //1桁ずつ比較する
 			{
 				if (a->n[i] > b->n[i])
 				{
@@ -453,128 +391,10 @@ int numComp(Number* a, Number* b)
 	}
 }
 
-int getInt(Number* a, int* x)
-//int型変数xに多倍長変数aの値を設定する
-//
-//戻り値
-//0・・・正常終了
-//-1・・・aの値がxに設定しきれなかった
-{
-	int i;
-	int zero = zeroNumber(a);
-	Number intMax, intMin;
-
-	setInt(&intMax, INT_MAX);
-	setInt(&intMin, INT_MIN);
-	*x = 0;
-
-	if (KETA - zero > 10)
-	{
-		return -1;
-	}
-	
-	if (numComp(a, &intMax) <= 0 && numComp(a, &intMin) >= 0)
-	{
-		for (i = KETA - 1 - zero; i >= 0; i--)
-		{
-			*x = *x * 10 + a->n[i];
-		}
-		if (getSign(a) == -1)
-		{
-			*x *= -1;
-		}
-
-		return 0;
-	}
-	else
-	{
-		return -1;
-	}
-}
-
-void swap(Number* a, Number* b)//aとbを交換する
-{
-	Number c = *a;
-	*a = *b;
-	*b = c;
-}
-
-int add(Number* a, Number* b, Number* c)
-//c <- a+b
-//
-//戻り値
-//0・・・正常終了
-//-1・・・オーバーフロー
-{
-	int i, d;
-	int e = 0;
-
-	clearByZero(c);
-
-	int aSign = getSign(a);
-	int bSign = getSign(b);
-
-	if (aSign == 1 && bSign == 1)
-	{
-		if (isZero(a) == 0)
-		{
-			copyNumber(b, c);
-			return 0;
-		}
-		else if (isZero(b) == 0)
-		{
-			copyNumber(a, c);
-			return 0;
-		}
-
-
-		for (i = 0; i < KETA; i++)
-		{
-			d = a->n[i] + b->n[i] + e;
-			c->n[i] = d % 10;
-			e = d / 10;
-		}
-
-		if (e != 0)
-		{
-			clearByZero(c);
-			return -1;
-		}
-
-		return 0;
-	}
-	else if (aSign == 1 && bSign == -1)
-	{
-		Number d;
-		getAbs(b, &d);
-		int r = sub(a, &d, c);
-		return r;
-	}
-	else if (aSign == -1 && bSign == 1)
-	{
-		Number d;
-		getAbs(a, &d);
-		int r = sub(b, &d, c);
-		return r;
-	}
-	else
-	{
-		Number d, e;
-		getAbs(a, &d);
-		getAbs(b, &e);
-		int r = add(&d, &e, c);
-		if (r == 0)
-		{
-			setSign(c, -1);
-		}
-		return r;
-	}
-}
 
 int sub(Number* a, Number* b, Number* c)
 //c <- a-b
 //
-//戻り値
 //0・・・正常終了
 //-1・・・オーバーフロー
 {
@@ -654,6 +474,78 @@ int sub(Number* a, Number* b, Number* c)
 	}
 }
 
+
+int add(Number* a, Number* b, Number* c)
+//c <- a+b
+//
+//0・・・正常終了
+//-1・・・オーバーフロー
+{
+	int i, d;
+	int e = 0;
+
+	clearByZero(c);
+
+	int aSign = getSign(a);
+	int bSign = getSign(b);
+
+	if (aSign == 1 && bSign == 1)
+	{
+		if (isZero(a) == 0)
+		{
+			copyNumber(b, c);
+			return 0;
+		}
+		else if (isZero(b) == 0)
+		{
+			copyNumber(a, c);
+			return 0;
+		}
+
+
+		for (i = 0; i < KETA; i++)
+		{
+			d = a->n[i] + b->n[i] + e;
+			c->n[i] = d % 10;
+			e = d / 10;
+		}
+
+		if (e != 0)
+		{
+			clearByZero(c);
+			return -1;
+		}
+
+		return 0;
+	}
+	else if (aSign == 1 && bSign == -1)
+	{
+		Number d;
+		getAbs(b, &d);
+		int r = sub(a, &d, c);
+		return r;
+	}
+	else if (aSign == -1 && bSign == 1)
+	{
+		Number d;
+		getAbs(a, &d);
+		int r = sub(b, &d, c);
+		return r;
+	}
+	else
+	{
+		Number d, e;
+		getAbs(a, &d);
+		getAbs(b, &e);
+		int r = add(&d, &e, c);
+		if (r == 0)
+		{
+			setSign(c, -1);
+		}
+		return r;
+	}
+}
+
 int increment(Number* a, Number* b)
 //b <- a+1
 {
@@ -670,6 +562,8 @@ int inc(Number* a)
 //a+1
 {
 	Number one, b;
+	clearByZero(&b);
+
 	int r;
 
 	setInt(&one, 1);
@@ -698,6 +592,7 @@ int dec(Number* a)
 //a-1
 {
 	Number one, b;
+	clearByZero(&b);
 	int r;
 
 	setInt(&one, 1);
@@ -714,7 +609,6 @@ int dec(Number* a)
 int multiple(Number* a, Number* b, Number* c)
 //c <- a*b
 //
-//戻り値
 //0・・・正常終了
 //-1・・・オーバーフロー
 {
@@ -744,7 +638,7 @@ int multiple(Number* a, Number* b, Number* c)
 			for (j = 0; j < KETA - aZero + 1; j++)
 			{
 				e = a->n[j] * b->n[i] + h;
-				if (i + j > KETA - 1 && e != 0)/* a->n[] * b->[i] がオーバーフロー*/
+				if (i + j > KETA - 1 && e != 0)// a->n[] * b->[i] がオーバーフロー
 				{
 					clearByZero(c);
 					return -1;
@@ -752,7 +646,7 @@ int multiple(Number* a, Number* b, Number* c)
 
 				d.n[i + j] |= e % 10;
 				h = (e - e % 10) / 10;
-				if (h != 0 && i + j >= KETA - 1)/*最上位の桁まで計算してもなお繰上りがある*/
+				if (h != 0 && i + j >= KETA - 1) //最上位の桁まで計算してもなお繰上りがある
 				{
 					clearByZero(c);
 					return -1;
@@ -761,7 +655,7 @@ int multiple(Number* a, Number* b, Number* c)
 
 			r = add(&tmpC, &d, c);
 
-			if (r == -1)/*加算でオーバーフロー*/
+			if (r == -1)//加算でオーバーフロー
 			{
 				return r;
 			}
@@ -803,8 +697,8 @@ int multiple(Number* a, Number* b, Number* c)
 
 int divide(Number* a, Number* b, Number* c, Number* d)
 //
-//c <- a/b
-//d <- a%d
+//c <- 商
+//d <- あまり
 //
 //戻り値
 //0...正常終了
@@ -868,99 +762,7 @@ int divide(Number* a, Number* b, Number* c, Number* d)
 	}
 }
 
-int Evodivide(Number* a, Number* b, Number* c, Number* d)
-//進化版
-//c <- a/b
-//d <- a%d
-//
-//戻り値
-//0...正常終了
-//-1...割る数が0
-{
-	Number n, m,f,g,flag;
-
-	clearByZero(c);
-	clearByZero(d);
-    clearByZero(&flag);
-
-
-	if (isZero(b) == 0)
-	{
-		return -1;
-	}
-
-	int aSign = getSign(a);
-	int bSign = getSign(b);
-
-	if (aSign == 1 && bSign == 1)
-	{
-
-		while (1)
-		{
-			if (numComp(a, b) == -1)  //a<bならおしまい
-			{
-				copyNumber(a, d);
-				break;
-			}
-			else
-			{
-                copyNumber(b,&f);   //f=b
-                setInt(&g,1); //g=1
-                while(1){
-                    mulBy10(&f,&n);
-                    copyNumber(&n,&f);  //f*=10
-                    if(numComp(a,&f)==-1){
-                        divBy10(&f,&n);
-                        copyNumber(&n,&f);  //a>fの最大のf
-                        break;
-                    }
-                    inc(&flag); //10をかけた回数
-                }
-
-                while (1)
-                {
-                    mulBy10(&g,&n);
-                    copyNumber(&n,&g);  //g*=10
-                    dec(&flag);
-                    if(isZero(&flag)==0){
-                        break;  //回数分かけたのでokどすえ
-                    }
-                }
-                sub(a,&f,&n);
-                copyNumber(&n,a);  //a-f
-                add(c,&g,&n);
-                copyNumber(&n,c);  //c+e
-			}
-		}
-	}
-	else if (aSign == 1 && bSign == -1)
-	{
-		Number p;
-		getAbs(b, &p);
-		Evodivide(a, &p, c, d);
-		setSign(c, -1);
-	}
-	else if (aSign == -1 && bSign == 1)
-	{
-		Number p;
-		getAbs(a, &p);
-		Evodivide(&p, b, c, d);
-		setSign(c, -1);
-		setSign(d, -1);
-	}
-	else
-	{
-		Number p, q;
-		getAbs(a, &p);
-		getAbs(b, &q);
-		Evodivide(&p, &q, c, d);
-		setSign(d, -1);
-	}
-	return 0;
-}
-
-
-int power(Number* a, Number* b, Number* c)
+int power(Number* a, Number* b, Number* c) //要改善
 
 
 //
@@ -1049,11 +851,78 @@ int power(Number* a, Number* b, Number* c)
 	}
 }
 
+//多倍長数a, bで a^b をして、結果を多倍長数cに格納するより速い関数  返り値：正常終了 ---> 0  オーバーフロー or アンダーフロー ---> -1  乗数が負 ---> -2
+/*int fastpower(struct NUMBER *a,struct NUMBER *b, struct NUMBER *c){
+    struct NUMBER tmp, tmp_a, pow_a, buf_b;
+    int a_int, b_int;
+
+    clearByZero(c);
+    copyNumber(a, &tmp_a);
+
+    getInt(a, &a_int);
+    getInt(b, &b_int);
+
+    //0^0 = 1
+    if((a_int == 0) && (b_int == 0)){
+        setInt(c, 1);
+        return (0);
+    }
+
+    //0^n = 0 (n >= 1)
+    if(a_int == 0){
+        if(b_int >= 1){
+            setInt(c, 0);
+            return (0);
+        }
+    }
+
+    //1^n = 1 (n >= 1)
+    if(a_int == 1){
+        if(b_int >= 1){
+            setInt(c, 1);
+            return (0);
+        }
+    }
+
+    //乗数が負の数のとき
+    if(b_int < 0){
+        return (-2);
+    }
+
+    //n^0 = 1
+    if(b_int == 0){
+        setInt(c, 1);
+        return (0);
+    }
+    //n^1 = n
+    if(b_int == 1){
+        setInt(c, a_int);
+        return (0);
+    }
+    //nが偶数：(x^2) ^ (n/2)
+    if((b_int % 2) == 0){
+        multiple(a, a, &pow_a);
+        setInt(&buf_b, (b_int / 2));
+        return (fastpower(&pow_a, &buf_b, c));
+    }
+    //nが奇数：x * x ^ (n - 1)
+    if((b_int % 2) == 1){
+        b_int--;
+        setInt(&buf_b, b_int);
+        fastpower(a, &buf_b, &tmp);
+        multiple(a, &tmp, c);
+        return (0);
+    }
+
+    return (0);
+}*/
+
 int inverseNumber(Number* a,Number* b,int p){ //aの逆数をNumber* b に返す  pは精度 この逆数ルーチンは2次収束
 	Number eps,x,y,g,x1,pow1,pow2,pow3,tei1,tei2,tei0,h,j,a1;
 	int i,c1,c0,c2;
 	int n = KETA - zeroNumber(a); //n = N+1 =log_10(a)
      //ずらす分の10^p
+	 c2=1;
 
 	c0=isZero(a); //最初にaについて判定して実行できるか確かめる
 	if(c0==0){
@@ -1119,9 +988,10 @@ int ultimatedivide(Number* a, Number* b, Number* c)
 {
 	Number m,d,e;
 
-	int n=KETA-zeroNumber(a)+3;
+	int n=KETA-zeroNumber(a)+5;  //精度を3->5にした
 
 	clearByZero(c);
+	clearByZero(&e);
 	//clearByZero(d);
 
 	if (isZero(b) == 0)
@@ -1164,8 +1034,6 @@ int ultimatedivide(Number* a, Number* b, Number* c)
 	}
 }
 
-
-
 Number kaijo(Number* a){
 
     Number a1,b,one,i;
@@ -1185,12 +1053,15 @@ Number kaijo(Number* a){
     return a1;  //答えを返すお
 }
 
-Number kensan(){    //計算の形はできたけど何倍か掛けて、たばいちょうに表示するとこができない
-    Number Keta,bunbo,bunshi,one,eps,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value,twon,tmp;
-	int keta=1000;
+Number kensan2(int keta){      //累乗改善
+    Number Keta,bunbo,bunshi,one,eps,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value,twon,tmp,before;
+	//int keta=8;
+	int flag=0;
 
     clearByZero(&bunbo);  
 	clearByZero(&bunshi);
+	clearByZero(&value);
+	clearByZero(&before);
 	setInt(&one,1);
 	setInt(&Keta,1);
 	setInt(&eps,1);
@@ -1206,10 +1077,10 @@ Number kensan(){    //計算の形はできたけど何倍か掛けて、たば�
 
 	mul10E(&Keta,keta);  //Keta=10^{keta}
 
-	//dispNumber(&Keta);
-	//printf("\n");
 
 	while(1){
+
+		copyNumber(&value,&before);
 
 		multiple(&eight,&n,&n8);  //n8=8*n
 
@@ -1260,11 +1131,12 @@ Number kensan(){    //計算の形はできたけど何倍か掛けて、たば�
 
 		ultimatedivide(&bunshi,&bunbo,&h);  //h=Σのところ
 
-		if (numComp(&h, &eps) == -1 ||numComp(&h,&eps)==0)  //たばいちょうで計算できる桁数超えそうになったらおしまい
+		if (numComp(&eps,&h)==1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
 		{
+			
+			
 			break;
 		}
-		//printf("a");
 
 
 
@@ -1278,38 +1150,36 @@ Number kensan(){    //計算の形はできたけど何倍か掛けて、たば�
 			add(&value, &h, &h1);  //h1=value+h
 			copyNumber(&h1, &value);  //value+=h
 		}
-		//dispNumber(&value);
-		//printf("\n");
+
 
 		inc(&n);
+		flag++;
 
 
 	}
 
-	//ultimatedivide(&value,&six4,&h);
-	//copyNumber(&h,&value);
+	printf("%d回ループ\n",flag);
 
 	return value;
 }
-Number catalan()
-//カタラン定数を定義により求める
-//戻り値...カタラン定数
+
+Number catalan2(int keta) //カタラン定数を定義により求める  12/31累乗改善
 {
-	Number value, a, two, loop, tmp, tmp1, tmp2, Keta;
+	Number value, a, two, loop, tmp, tmp1, tmp2, Keta,eps;
 	int i;
-	int keta = 8;
+	keta+=2;
 
 	setInt(&two, 2);
 	clearByZero(&loop);
 	setInt(&Keta,1);
 	clearByZero(&value);
+	clearByZero(&tmp);
+	clearByZero(&tmp2);
+	setInt(&eps,1);
 
-	for (i = 0; i < keta; i++)  //ここなにしてんだろ入る桁数の拡大かや
-	{
-		mulBy10(&Keta, &tmp);
-		copyNumber(&tmp, &Keta);  //Keta=10^{keta}
-	}
-	//printf("i\n");
+
+	mul10E(&Keta,keta);
+	
 	
 	while (1)
 	{
@@ -1317,20 +1187,15 @@ Number catalan()
 		inc(&tmp);  //インクリメント  2*n+1
 		power(&tmp, &two, &tmp1);  //(2*n+1)^2=tmp1
 
-		//printf("b");
-
-
-		if (numComp(&Keta, &tmp1) == -1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
-		{
-			break;
-		}
-		//printf("c");
 
 
 		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   ここでketa=8以上になると重くなる
+		if (isZero(&a)==0)  //たばいちょうで計算できる桁数超えそうになったらおしまい
+		{
+			printf("%d回ループ\n",i);
+			break;
+		}
 
-		//dispNumber(&a);
-		//printf("a\n");
 
 		if (loop.n[0] % 2 == 0)  //奇数偶数で計算パターンを変更
 		{
@@ -1343,26 +1208,34 @@ Number catalan()
 			copyNumber(&tmp2, &value);  //value-=a
 		}
 		inc(&loop);  //loop++(n++)
+		i++;
 		
 	}
+	div10E(&value,2);
 	return value;
 }
 
-
 int main(){
 
-  long cpu_time;
-  double sec;
+  clock_t start,end;
+  start=clock();
+  int a=8;
   Number C,B,D;
-  clearByZero(&C);
-  C=kensan();
+  clearByZero(&C);  //カタラン定義式の遅さの証明
+  C=catalan2(a);
   dispNumber(&C);
-  cpu_time = clock();
- 
-    /* 秒に直す */
-    sec = (double)cpu_time / CLOCKS_PER_SEC;
-     
-    printf("%f秒\n", sec);
+  printf("\n");
+  clearByZero(&D);
+  D=kensan2(a);
+  dispNumber(&D);
+  if(numComp(&C,&D)==0){
+	  printf("\n");
+	  printf("定義式で計算した値と検算用の式で計算した値は一致した。");
+  } 
+
+  end = clock();
+  printf("\n");
+  printf("%.6f[s]\n",(double)(end-start)/CLOCKS_PER_SEC);
 	
 
 	

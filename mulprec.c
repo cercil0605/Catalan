@@ -11,7 +11,7 @@
 typedef struct NUMBER
 {
 	int n[KETA];//ŠeŒ…‚Ì’l
-	int sign;//•„†•Ï”
+	int sign;//•„†
 }Number;
 
 int add(Number*, Number*, Number*);
@@ -23,8 +23,8 @@ int add(Number*, Number*, Number*);
 
 int setSign(Number* a, int s)
 //‘½”{’·•Ï”a‚Ì•„†‚ğ
-//s=1‚È‚ç³‚ÉCs=-1‚È‚ç•‰‚Éİ’è‚µ‚Ä0‚ğ•Ô‚·
-//‚»‚êˆÈŠO‚È‚çƒGƒ‰[‚Æ‚µ‚Ä-1‚ğ•Ô‚·
+//s=1‚È‚ç³‚ÉCs=-1‚È‚ç•‰‚Éİ’è‚µ‚Ä0
+//‚»‚êˆÈŠO‚È‚çƒGƒ‰[‚Æ‚µ‚Ä-1
 {
 	if (s == 1)
 	{
@@ -42,7 +42,7 @@ int setSign(Number* a, int s)
 	}
 }
 
-int getSign(Number* a)//a‚ª0‚È‚ç1‚ğC•‰‚È‚ç-1‚ğ•Ô‚·
+int getSign(Number* a)//a‚ª0‚È‚ç1‚ğC•‰‚È‚ç-1
 {
 	if (a->sign == 1)
 	{
@@ -54,11 +54,11 @@ int getSign(Number* a)//a‚ª0‚È‚ç1‚ğC•‰‚È‚ç-1‚ğ•Ô‚·
 	}
 }
 
-void clearByZero(Number* a)//‘½”{’·•Ï”‚Ì’l‚ğƒ[ƒƒNƒŠƒA‚µC•„†‚ğƒvƒ‰ƒX‚ÉƒZƒbƒg‚·‚é
+void clearByZero(Number* a)//‘½”{’·•Ï”‚Ì’l‚ğ‘S•”ƒ[ƒ‚É‚µA+‚Ì•„†‚ğ‚Â‚¯‚é
 {
 	int i;
 
-	for (i = 0; i < KETA; i++)
+	for (i = 0; i < KETA; i++)  //‚·‚×‚Ä‚Ì”z—ñ‚ğ0‚ÉƒZƒbƒg
 	{
 		a->n[i] = 0;
 	}
@@ -66,13 +66,13 @@ void clearByZero(Number* a)//‘½”{’·•Ï”‚Ì’l‚ğƒ[ƒƒNƒŠƒA‚µC•„†‚ğƒvƒ‰ƒX‚ÉƒZƒbƒg‚
 	setSign(a, 1);
 }
 
-void dispNumber(Number* a)//a‚ğ•\¦‚·‚é
+void dispNumber(Number* a)//a‚ğ•\¦
 {
 	int i;
 
 	if (getSign(a) == 1) 
 	{
-		printf("+");
+		printf("+");  //•„†‚ğæ‚Éo—Í
 	}
 	else 
 	{
@@ -81,7 +81,7 @@ void dispNumber(Number* a)//a‚ğ•\¦‚·‚é
 
 	for (i = KETA-1; i >= 0; i--) 
 	{
-		printf("%2d", a->n[i]);
+		printf("%2d", a->n[i]);  //ŠÔŠu‚ğ‚ ‚¯‚é
 	}
 }
 
@@ -96,7 +96,7 @@ int zeroNumber(Number* a)
 
 	for (i = KETA - 1; i >= 0; i--)
 	{
-		if (a->n[i] == 0)
+		if (a->n[i] == 0) //0‚ª‚ ‚Á‚½‚Ì‚Åzeronumber‚ğ‘«‚·
 		{
 			zeroNumber++;
 		}
@@ -106,21 +106,20 @@ int zeroNumber(Number* a)
 		}
 	}
 
-	return zeroNumber;
+	return zeroNumber;  //•Ô‚·
 }
 
 
 
 int isZero(Number* a)
-//a‚ªƒ[ƒ‚©”»•Ê‚·‚é
+//a‚ªƒ[ƒ‚©”»•Ê
 //
-//–ß‚è’l
 //0EEEa==0
 //-1EEEa!=0
 {
 	int i;
 
-	if (getSign(a) == -1)
+	if (getSign(a) == -1)  //ƒ}ƒCƒiƒX‚È‚Ì‚Å
 	{
 		return -1;
 	}
@@ -132,36 +131,14 @@ int isZero(Number* a)
 		}
 	}
 
-	return 0;
+	return 0;  //I—¹
 }
 
-void setRnd(Number* a, int k)//a‚Ì‰ºˆÊkŒ…‚É—”’l‚ğƒZƒbƒg‚·‚é
+void copyNumber(Number* a, Number* b)//a‚ğb‚ÉƒRƒs[
 {
 	int i;
 
-	clearByZero(a);
-
-	for (i = 0; i < k; i++) 
-	{
-		a->n[i] = rand() % 10;
-	}
-
-	if (rand() % 2 == 0 || isZero(a) == 0) 
-	{
-		setSign(a, 1);
-	}
-	else
-	{
-		setSign(a,-1);
-	}
-
-}
-
-void copyNumber(Number* a, Number* b)//a‚ğb‚ÉƒRƒs[‚·‚é
-{
-	int i;
-
-	setSign(b,getSign(a));
+	setSign(b,getSign(a));  //•„†‚à–Y‚ê‚¸‚É
 
 	for (i = 0; i < KETA; i++) 
 	{
@@ -169,7 +146,7 @@ void copyNumber(Number* a, Number* b)//a‚ğb‚ÉƒRƒs[‚·‚é
 	}
 }
 
-void getAbs(Number* a, Number* b)//a‚Ìâ‘Î’l‚ğb‚É•Ô‚·
+void getAbs(Number* a, Number* b)//b=|a|
 {
 	copyNumber(a, b);
 	setSign(b,1);
@@ -223,7 +200,7 @@ int mul10E(Number* a,int i){  //10^i‚µ‚½’l‚ğˆø”‚Ì‚Æ‚±‚ë‚É‚Ü‚ñ‚Ü•Ô‚·
 
 
 
-int divBy10(struct NUMBER *a , struct NUMBER *b){
+int divBy10(struct NUMBER *a , struct NUMBER *b){  //mulBy10‚ÌŠ„‚èZƒo[ƒWƒ‡ƒ“
     int i;
 	clearByZero(b);
 
@@ -234,7 +211,7 @@ int divBy10(struct NUMBER *a , struct NUMBER *b){
     return a->n[0];
 }
 
-int div10E(Number* a,int i){
+int div10E(Number* a,int i){  //mul10E‚ÌŠ„‚èZƒo[ƒWƒ‡ƒ“
 	Number b;
 	clearByZero(&b);
 	while(1){
@@ -256,32 +233,31 @@ int div10E(Number* a,int i){
 int setInt(Number* a, int x)
 //‘½”{’·•Ï”a‚ÉintŒ^•Ï”x‚Ì’l‚ğİ’è‚·‚é
 //
-//–ß‚è’l
 //0EEE³íI—¹
 //-1EEEx‚Ì’l‚ªa‚Éİ’è‚µ‚«‚ê‚È‚©‚Á‚½
 {
 	int i;
-	int aLen = KETA;
+	int Length = KETA;
 
-	clearByZero(a);
+	clearByZero(a);  //‚Ğ‚Æ‚Ü‚¸ƒLƒŒƒC‚É‚·‚é
 
-	if (x < 0)
+	if (x < 0)  //•‰‚Ì’l‚©‹æ•Ê
 	{
 		setSign(a, -1);
 
-		for (i = 0; i < 10; i++)
+		for (i = 0; i < 10; i++)  //10i”‚Å‚ ‚é‚±‚Æ‚É—¯ˆÓ
 		{
 			if (x == 0)
 			{
 				return 0;
 			}
-			else if (aLen == 0)
+			else if (Length == 0)
 			{
 				clearByZero(a);
 				return -1;
 			}
 			a->n[i] = x % 10 * (-1);
-			aLen--;
+			Length--;
 			x = (x - x % 10) / 10;
 		}
 	}
@@ -293,13 +269,13 @@ int setInt(Number* a, int x)
 			{
 				return 0;
 			}
-			else if (aLen == 0)
+			else if (Length == 0)
 			{
 				clearByZero(a);
 				return -1;
 			}
 			a->n[i] = x % 10;
-			aLen--;
+			Length--;
 			x = (x - x % 10) / 10;
 		}
 	}
@@ -315,40 +291,58 @@ int setInt(Number* a, int x)
 	}
 }
 
+int getInt(struct NUMBER *a, int *x){
+    int i,ten = 1;
+    *x = 0;
+    for(i=0;i<KETA;i++){
+        if((a->n[i] + *x) > INT_MAX){
+            return -1;
+        }
+        *x += a->n[i] * ten;
+        ten *= 10;
+    }
+    if(a->sign == 0){
+        if(*x * -1 < INT_MIN){
+            return -1;
+        }
+        *x *= -1;
+    }
+    return 0;
+}
+
 int numComp(Number* a, Number* b)
-//2‚Â‚Ì‘½”{’·•Ï”a,b‚Ì‘å¬‚ğ”äŠr‚·‚é
+//2‚Â‚Ì‘½”{’·•Ï”a,b‚Ì‘å¬‚ğ”äŠr
 //
-//–ß‚è’l
 //0EEEa==b
 //1EEEa>b
 //-1EEEa<b
 {
 	if (getSign(a) == 1 && getSign(b) == -1)
 	{
-		return 1;
+		return 1;  //a>b
 	}
 	else if (getSign(a) == -1 && getSign(b) == 1)
 	{
-		return -1;
+		return -1;  //a<b
 	}
-	else if (getSign(a) == 1 && getSign(b) == 1)
+	else if (getSign(a) == 1 && getSign(b) == 1)   //“¯‚¶•„†‚È‚Ì‚Å(+ +)
 	{
 		int aZero = zeroNumber(a);
 		int bZero = zeroNumber(b);
 
 		if (aZero > bZero)
 		{
-			return -1;
+			return -1;  //ãˆÊ‚Ì0‚Ì”‚ğ”äŠr‚·‚é‚±‚Æ‚Å‘å‚«‚³‚ğ”»•Ê
 		}
 		else if (aZero < bZero)
 		{
 			return 1;
 		}
-		else
+		else   //”»•Ê‚Å‚«‚È‚¢‚Ì‚Å
 		{
 			int i;
 
-			for (i = KETA - 1 - aZero; i >= 0; i--)
+			for (i = KETA - 1 - aZero; i >= 0; i--)  //1Œ…‚¸‚Â”äŠr‚·‚é
 			{
 				if (a->n[i] > b->n[i])
 				{
@@ -401,7 +395,6 @@ int numComp(Number* a, Number* b)
 int sub(Number* a, Number* b, Number* c)
 //c <- a-b
 //
-//–ß‚è’l
 //0EEE³íI—¹
 //-1EEEƒI[ƒo[ƒtƒ[
 {
@@ -485,7 +478,6 @@ int sub(Number* a, Number* b, Number* c)
 int add(Number* a, Number* b, Number* c)
 //c <- a+b
 //
-//–ß‚è’l
 //0EEE³íI—¹
 //-1EEEƒI[ƒo[ƒtƒ[
 {
@@ -617,7 +609,6 @@ int dec(Number* a)
 int multiple(Number* a, Number* b, Number* c)
 //c <- a*b
 //
-//–ß‚è’l
 //0EEE³íI—¹
 //-1EEEƒI[ƒo[ƒtƒ[
 {
@@ -647,7 +638,7 @@ int multiple(Number* a, Number* b, Number* c)
 			for (j = 0; j < KETA - aZero + 1; j++)
 			{
 				e = a->n[j] * b->n[i] + h;
-				if (i + j > KETA - 1 && e != 0)/* a->n[] * b->[i] ‚ªƒI[ƒo[ƒtƒ[*/
+				if (i + j > KETA - 1 && e != 0)// a->n[] * b->[i] ‚ªƒI[ƒo[ƒtƒ[
 				{
 					clearByZero(c);
 					return -1;
@@ -655,7 +646,7 @@ int multiple(Number* a, Number* b, Number* c)
 
 				d.n[i + j] |= e % 10;
 				h = (e - e % 10) / 10;
-				if (h != 0 && i + j >= KETA - 1)/*ÅãˆÊ‚ÌŒ…‚Ü‚ÅŒvZ‚µ‚Ä‚à‚È‚¨ŒJã‚è‚ª‚ ‚é*/
+				if (h != 0 && i + j >= KETA - 1) //ÅãˆÊ‚ÌŒ…‚Ü‚ÅŒvZ‚µ‚Ä‚à‚È‚¨ŒJã‚è‚ª‚ ‚é
 				{
 					clearByZero(c);
 					return -1;
@@ -664,7 +655,7 @@ int multiple(Number* a, Number* b, Number* c)
 
 			r = add(&tmpC, &d, c);
 
-			if (r == -1)/*‰ÁZ‚ÅƒI[ƒo[ƒtƒ[*/
+			if (r == -1)//‰ÁZ‚ÅƒI[ƒo[ƒtƒ[
 			{
 				return r;
 			}
@@ -706,8 +697,8 @@ int multiple(Number* a, Number* b, Number* c)
 
 int divide(Number* a, Number* b, Number* c, Number* d)
 //
-//c <- a/b
-//d <- a%d
+//c <- ¤
+//d <- ‚ ‚Ü‚è
 //
 //–ß‚è’l
 //0...³íI—¹
@@ -860,6 +851,7 @@ int power(Number* a, Number* b, Number* c) //—v‰ü‘P
 	}
 }
 
+
 int inverseNumber(Number* a,Number* b,int p){ //a‚Ì‹t”‚ğNumber* b ‚É•Ô‚·  p‚Í¸“x ‚±‚Ì‹t”ƒ‹[ƒ`ƒ“‚Í2Ÿû‘©
 	Number eps,x,y,g,x1,pow1,pow2,pow3,tei1,tei2,tei0,h,j,a1;
 	int i,c1,c0,c2;
@@ -996,7 +988,7 @@ Number kaijo(Number* a){
     return a1;  //“š‚¦‚ğ•Ô‚·‚¨
 }
 
-Number kensan2(int keta){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•\¦‚·‚é‚Æ‚±‚ª‚Å‚«‚È‚¢
+Number kensan2(int keta){      //—İæ‰ü‘P
     Number Keta,bunbo,bunshi,one,eps,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value,twon,tmp,before;
 	//int keta=8;
 	int flag=0;
@@ -1020,8 +1012,6 @@ Number kensan2(int keta){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•
 
 	mul10E(&Keta,keta);  //Keta=10^{keta}
 
-	//dispNumber(&Keta);
-	//printf("\n");
 
 	while(1){
 
@@ -1075,12 +1065,6 @@ Number kensan2(int keta){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•
 		//‚±‚±‚Ü‚Å‚Å•ª•ê‹‚ß‚½  64*n^3*(2*n-1)*[(4*n)!]^2
 
 		ultimatedivide(&bunshi,&bunbo,&h);  //h=ƒ°‚Ì‚Æ‚±‚ë
-		/*if(numComp(&bunbo,&bunshi)==1){
-				break;
-			}*/
-		/*dispNumber(&h);
-		printf("\n");
-		printf("\n");*/
 
 		if (numComp(&eps,&h)==1)  //‚½‚Î‚¢‚¿‚å‚¤‚ÅŒvZ‚Å‚«‚éŒ…”’´‚¦‚»‚¤‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
 		{
@@ -1088,8 +1072,6 @@ Number kensan2(int keta){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•
 			
 			break;
 		}
-
-		//printf("a");
 
 
 
@@ -1104,9 +1086,6 @@ Number kensan2(int keta){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•
 			copyNumber(&h1, &value);  //value+=h
 		}
 
-		//dispNumber(&value);
-		//printf("\n");
-		//printf("%d\n",flag);
 
 		inc(&n);
 		flag++;
@@ -1114,20 +1093,15 @@ Number kensan2(int keta){    //ŒvZ‚ÌŒ`‚Í‚Å‚«‚½‚¯‚Ç‰½”{‚©Š|‚¯‚ÄA‚½‚Î‚¢‚¿‚å‚¤‚É•
 
 	}
 
-	//ultimatedivide(&value,&six4,&h);
-	//copyNumber(&h,&value);
 	printf("%d‰ñƒ‹[ƒv\n",flag);
 
 	return value;
 }
 
-Number catalan2(int keta)
-//ƒJƒ^ƒ‰ƒ“’è”‚ğ’è‹`‚É‚æ‚è‹‚ß‚é
-//–ß‚è’l...ƒJƒ^ƒ‰ƒ“’è”
+Number catalan2(int keta) //ƒJƒ^ƒ‰ƒ“’è”‚ğ’è‹`‚É‚æ‚è‹‚ß‚é  12/31—İæ‰ü‘P
 {
 	Number value, a, two, loop, tmp, tmp1, tmp2, Keta,eps;
-	int i;
-	//int keta = 8;
+	int i=0;
 	keta+=2;
 
 	setInt(&two, 2);
@@ -1140,7 +1114,7 @@ Number catalan2(int keta)
 
 
 	mul10E(&Keta,keta);
-	//printf("i\n");
+	
 	
 	while (1)
 	{
@@ -1148,23 +1122,15 @@ Number catalan2(int keta)
 		inc(&tmp);  //ƒCƒ“ƒNƒŠƒƒ“ƒg  2*n+1
 		power(&tmp, &two, &tmp1);  //(2*n+1)^2=tmp1
 
-		//printf("b");
-
-		//printf("c");
-		/*if(numComp(&Keta,&tmp1)==-1){
-			break;
-		} */
 
 
 		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   ‚±‚±‚Åketa=8ˆÈã‚É‚È‚é‚Æd‚­‚È‚é
-		if (isZero(&a)==0)  //‚½‚Î‚¢‚¿‚å‚¤‚ÅŒvZ‚Å‚«‚éŒ…”’´‚¦‚»‚¤‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
+		if (numComp(&Keta,&tmp1)==-1)  //‚½‚Î‚¢‚¿‚å‚¤‚ÅŒvZ‚Å‚«‚éŒ…”’´‚¦‚»‚¤‚É‚È‚Á‚½‚ç‚¨‚µ‚Ü‚¢
 		{
 			printf("%d‰ñƒ‹[ƒv\n",i);
 			break;
 		}
 
-		//dispNumber(&a);
-		//printf("\n");
 
 		if (loop.n[0] % 2 == 0)  //Šï”‹ô”‚ÅŒvZƒpƒ^[ƒ“‚ğ•ÏX
 		{
@@ -1186,29 +1152,25 @@ Number catalan2(int keta)
 
 int main(){
 
-  long cpu_time;
-  double sec;
-  int a=11;
+  clock_t start,end;
+  start=clock();
+  int a=10;
   Number C,B,D;
-  clearByZero(&C);
-  C=catalan2(a);
+  /*clearByZero(&C);  //ƒJƒ^ƒ‰ƒ“’è‹`®‚Ì’x‚³‚ÌØ–¾
+  C=kensan2(a);
   dispNumber(&C);
-  printf("\n");
+  printf("\n"); */
   clearByZero(&D);
-  D=kensan2(a);
+  D=catalan2(a);
   dispNumber(&D);
-  if(numComp(&C,&D)==0){
+  /*if(numComp(&C,&D)==0){
 	  printf("\n");
 	  printf("’è‹`®‚ÅŒvZ‚µ‚½’l‚ÆŒŸZ—p‚Ì®‚ÅŒvZ‚µ‚½’l‚Íˆê’v‚µ‚½B");
-  }
+  } */
 
-  cpu_time = clock();
- 
-    /* •b‚É’¼‚· */
-    sec = (double)cpu_time / CLOCKS_PER_SEC;
-     
-	 printf("\n");
-    printf("%f[s]\n", sec);
+  end = clock();
+  printf("\n");
+  printf("%.6f[s]\n",(double)(end-start)/CLOCKS_PER_SEC);
 	
 
 	
