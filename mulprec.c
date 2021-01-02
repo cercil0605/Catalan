@@ -291,24 +291,6 @@ int setInt(Number* a, int x)
 	}
 }
 
-int getInt(struct NUMBER *a, int *x){
-    int i,ten = 1;
-    *x = 0;
-    for(i=0;i<KETA;i++){
-        if((a->n[i] + *x) > INT_MAX){
-            return -1;
-        }
-        *x += a->n[i] * ten;
-        ten *= 10;
-    }
-    if(a->sign == 0){
-        if(*x * -1 < INT_MIN){
-            return -1;
-        }
-        *x *= -1;
-    }
-    return 0;
-}
 
 int numComp(Number* a, Number* b)
 //2つの多倍長変数a,bの大小を比較
@@ -699,8 +681,6 @@ int divide(Number* a, Number* b, Number* c, Number* d)
 //
 //c <- 商
 //d <- あまり
-//
-//戻り値
 //0...正常終了
 //-1...割る数が0
 {
@@ -767,8 +747,6 @@ int power(Number* a, Number* b, Number* c) //要改善
 
 //
 //c <- a^b
-//
-//戻り値
 //0...正常終了
 //-1...オーバーフローまたはアンダーフロー
 //-1...b < 0
@@ -893,7 +871,7 @@ int inverseNumber(Number* a,Number* b,int p){ //aの逆数をNumber* b に返す  pは精
 		
 		multiple(&y,&h,&x); //x=y*(2.0-a*y)
 
-		div10E(&x,p);   //ずれてんのでその分直しやす
+		div10E(&x,p);   //ずれてんのでその分直す
 
 		sub(&x,&y,&j);  //j=x-y
 
@@ -916,8 +894,6 @@ int inverseNumber(Number* a,Number* b,int p){ //aの逆数をNumber* b に返す  pは精
 int ultimatedivide(Number* a, Number* b, Number* c)
 //
 //c <- a/b
-//
-//戻り値
 //0...正常終了
 //-1...割る数が0
 {
@@ -927,8 +903,7 @@ int ultimatedivide(Number* a, Number* b, Number* c)
 
 	clearByZero(c);
 	clearByZero(&e);
-	//clearByZero(d);
-
+	
 	if (isZero(b) == 0)
 	{
 		return -1;
@@ -969,7 +944,7 @@ int ultimatedivide(Number* a, Number* b, Number* c)
 	}
 }
 
-Number kaijo(Number* a){
+Number kaijo(Number* a){  //階乗を行う
 
     Number a1,b,one,i;
 
@@ -990,8 +965,8 @@ Number kaijo(Number* a){
 
 Number kensan2(int keta){      //累乗改善
     Number Keta,bunbo,bunshi,one,eps,two,forty,twe4,three,four,eight,six4,n,n8,c1,c2,c3,c0,c4,c5,h,h1,value,twon,tmp,before;
-	//int keta=8;
 	int flag=0;
+	keta+=1;
 
     clearByZero(&bunbo);  
 	clearByZero(&bunshi);
@@ -1019,7 +994,7 @@ Number kensan2(int keta){      //累乗改善
 
 		multiple(&eight,&n,&n8);  //n8=8*n
 
-		power(&two,&n8,&c1); //c1=2^(8*n)  c1後で使う
+		power(&two,&n8,&c1); //c1=2^(8*n)  
 
 		power(&n,&two,&n8); //n8=n^2
 
@@ -1034,7 +1009,7 @@ Number kensan2(int keta){      //累乗改善
 		kaijo(&n8);  //n8=(2*n)!
 		power(&n8,&three,&c3);  //c3=((2*n!))^3
 
-	    copyNumber(&n,&c4);  //c4=n  階乗関数利用のためにコピー
+	    copyNumber(&n,&c4);  //c4=n  
 		kaijo(&c4);  //c4=n!
 		power(&c4,&two,&c0);  //c0=(n!)^2
 
@@ -1047,9 +1022,9 @@ Number kensan2(int keta){      //累乗改善
 
 		multiple(&c4,&c5,&bunshi);
 
-		multiple(&bunshi,&Keta,&c4);  //めっちゃ倍数掛ける（正確に計算）
+		multiple(&bunshi,&Keta,&c4);  //正確に計算
 		copyNumber(&c4,&bunshi);
-		//ここまでで分子求めた
+		//ここまでで分子
 
 		power(&n,&three,&c0);  //c0=n^3
 		sub(&twon,&one,&c1);  //c1=2*n-1
@@ -1066,7 +1041,7 @@ Number kensan2(int keta){      //累乗改善
 
 		ultimatedivide(&bunshi,&bunbo,&h);  //h=Σのところ
 
-		if (numComp(&eps,&h)==1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
+		if (isZero(&h)==0)  //たばいちょうで計算できる桁数超えそうになったらおしまい
 		{
 			
 			
@@ -1095,10 +1070,12 @@ Number kensan2(int keta){      //累乗改善
 
 	printf("%d回ループ\n",flag);
 
+	div10E(&value,1);
+
 	return value;
 }
 
-Number catalan2(int keta) //カタラン定数を定義により求める  12/31累乗改善
+Number catalan2(int keta) //カタラン定数を定義により求める
 {
 	Number value, a, two, loop, tmp, tmp1, tmp2, Keta,eps;
 	int i=0;
@@ -1122,20 +1099,19 @@ Number catalan2(int keta) //カタラン定数を定義により求める  12/31累乗改善
 		inc(&tmp);  //インクリメント  2*n+1
 		power(&tmp, &two, &tmp1);  //(2*n+1)^2=tmp1
 
-
-
-		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   ここでketa=8以上になると重くなる
 		if (numComp(&Keta,&tmp1)==-1)  //たばいちょうで計算できる桁数超えそうになったらおしまい
 		{
-			printf("%d回ループ\n",i);
 			break;
 		}
 
 
+
+
+		ultimatedivide(&Keta, &tmp1, &a);  //a<=Keta/tmp1   
 		if (loop.n[0] % 2 == 0)  //奇数偶数で計算パターンを変更
 		{
 			add(&value, &a, &tmp2);  //tmp2=value+a
-			copyNumber(&tmp2, &value);  //value=tmp2  すなわちvalue+=aてこと
+			copyNumber(&tmp2, &value);  //value=tmp2  すなわちvalue+=a
 		}
 		else
 		{
@@ -1146,7 +1122,8 @@ Number catalan2(int keta) //カタラン定数を定義により求める  12/31累乗改善
 		i++;
 		
 	}
-	div10E(&value,2);
+	printf("%d回ループ\n",i);
+	div10E(&value,2);  
 	return value;
 }
 
@@ -1156,17 +1133,17 @@ int main(){
   start=clock();
   int a=10;
   Number C,B,D;
-  /*clearByZero(&C);  //カタラン定義式の遅さの証明
+  clearByZero(&C); 
   C=kensan2(a);
   dispNumber(&C);
-  printf("\n"); */
+  printf("\n"); 
   clearByZero(&D);
   D=catalan2(a);
   dispNumber(&D);
-  /*if(numComp(&C,&D)==0){
+  if(numComp(&C,&D)==0){
 	  printf("\n");
 	  printf("定義式で計算した値と検算用の式で計算した値は一致した。");
-  } */
+  }  
 
   end = clock();
   printf("\n");

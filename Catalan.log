@@ -1,11 +1,11 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.12.21)  31 DEC 2020 13:36
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.sjis) (TeX Live 2020/W32TeX) (preloaded format=platex 2020.12.6)  2 JAN 2021 14:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **g:/マイドライブ/3J/algorithm/Program/SampleC/Catalan/Catalan
 (g:/マイドライブ/3J/algorithm/Program/SampleC/Catalan/Catalan.tex
 pLaTeX2e <2020-10-01>+1 (based on LaTeX2e <2020-10-01> patch level 2)
-L3 programming layer <2020-12-07> xparse <2020-03-03> (c:/texlive/2020/texmf-dist/tex/platex/base/jarticle.cls
+L3 programming layer <2020-12-03> xparse <2020-03-03> (c:/texlive/2020/texmf-dist/tex/platex/base/jarticle.cls
 Document Class: jarticle 2020/09/30 v1.8f Standard pLaTeX class
 \c@@paper=\count176
 (c:/texlive/2020/texmf-dist/tex/platex/base/jsize10.clo
@@ -28,7 +28,7 @@ LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
 \@lnumwidth=\dimen155
 \bibindent=\dimen156
 \heisei=\count185
-) (c:/texlive/2020/texmf-dist/tex/latex/multirow/multirow.sty
+) (c:/texlive/2020/texmf-dist/tex/latex/tools/multirow.sty
 Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
 \multirow@colwidth=\skip49
 \multirow@cntb=\count186
@@ -115,7 +115,7 @@ slashbox style by K.Yasuoka, May 1993.
 \@slashboxht=\count266
 \@slashsepl=\dimen169
 \@slashsepr=\dimen170
-) (c:/texlive/2020/texmf-dist/tex/latex/multirow/bigstrut.sty
+) (c:/texlive/2020/texmf-dist/tex/latex/tools/bigstrut.sty
 Package: bigstrut 2019/05/31 v2.5 Provide larger struts in tabulars
 ) (c:/texlive/2020/texmf-dist/tex/latex/here/here.sty) (c:/texlive/2020/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
@@ -154,6 +154,9 @@ Package: listings 2020/03/24 1.8d (Carsten Heinz)
 Package: jlisting 2006/02/20 0.2 (Thor)
 \lst@nextchar=\count276
 \lst@inputfile=\read2
+) (c:/texlive/2020/texmf-dist/tex/latex/tools/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (c:/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-dvipdfmx.def
 File: l3backend-dvipdfmx.def 2020-09-24 L3 backend support: dvipdfmx
 \g__graphics_track_int=\count277
@@ -163,52 +166,43 @@ File: l3backend-dvipdfmx.def 2020-09-24 L3 backend support: dvipdfmx
 ) (./Catalan.aux)
 \openout1 = `Catalan.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
 \c@lstlisting=\count280
  [1
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 40.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 41.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 40.
-LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 70.
-LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 70.
-
-
-LaTeX Warning: Reference `kekka' on page 1 undefined on input line 70.
-
-[1] (./Catalan.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 41.
+ [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23]
+File: teigi.png Graphic file (type bmp)
+<teigi.png>
+ [24] [25] [26] [27] (./Catalan.aux) ) 
 Here is how much of TeX's memory you used:
- 3110 strings out of 479853
- 43932 string characters out of 5884962
- 333151 words of memory out of 5000000
- 20432 multiletter control sequences out of 15000+600000
- 411493 words of font info for 60 fonts, out of 8000000 for 9000
- 929 hyphenation exceptions out of 8191
- 66i,8n,72p,283b,279s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 3460 strings out of 481335
+ 46885 string characters out of 5918733
+ 1887655 words of memory out of 5000000
+ 20646 multiletter control sequences out of 15000+600000
+ 411816 words of font info for 62 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 66i,8n,72p,575b,1718s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Catalan.dvi (2 pages, 4180 bytes).
+Output written on Catalan.dvi (28 pages, 106676 bytes).
